@@ -71,14 +71,30 @@ public class Main {
 		RegistroCDR test=new RegistroCDR();
 		test.setTelefonoOrigen("77777777");
 		test.setTelefonoDestino("76666666");
-		test.setFecha("22022020");
+		test.setFecha("07/21/2019");
+		test.setHora("2200");
+		test.setTiempoDuracionSegundos(10);
+		test.setCosto(11.5);
+		
+		RegistroCDR test2=new RegistroCDR();
+		test.setTelefonoOrigen("70725841");
+		test.setTelefonoDestino("77777778");
+		test.setFecha("12/12/2014");
+		test.setHora("1500");
+		test.setTiempoDuracionSegundos(10);
+		test.setCosto(11.5);
+		
+		RegistroCDR test3=new RegistroCDR();
+		test.setTelefonoOrigen("75656474");
+		test.setTelefonoDestino("76666666");
+		test.setFecha("07/21/2018");
 		test.setHora("2200");
 		test.setTiempoDuracionSegundos(10);
 		test.setCosto(11.5);
 
 		cdrs.add(test);
-		cdrs.add(test);
-		cdrs.add(test);
+		cdrs.add(test2);
+		cdrs.add(test3);
 		String res="";
 		for (RegistroCDR c : cdrs) {
             res=res+getRegistoCdrTable(c);
@@ -95,7 +111,6 @@ public class Main {
 				"    <td>"+ r.getTiempoDuracionSegundos() +"</td>" +
 				"    <td>"+ r.getCosto() +"</td>" +
 				"</tr>";
-
 		return res;
 	}
 }
