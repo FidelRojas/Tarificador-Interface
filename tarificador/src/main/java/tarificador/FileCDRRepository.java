@@ -55,5 +55,4 @@ public class FileCDRRepository implements ICDRRepository {
 	public ArrayList<RegistroCDR> getList() {
 		return listCDR;
 	}
-
 }
