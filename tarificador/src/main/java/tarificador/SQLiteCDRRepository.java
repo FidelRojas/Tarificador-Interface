@@ -106,4 +106,10 @@ public class SQLiteCDRRepository implements ICDRRepository {
 		return listCDR;
 	}
 
+	@Override
+	public void saveCDRsHistorial(ArrayList<RegistroCDR> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

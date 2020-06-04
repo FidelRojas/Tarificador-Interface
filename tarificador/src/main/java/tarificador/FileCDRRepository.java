@@ -2,9 +2,15 @@ package tarificador;
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;  
+import java.util.Date;
 
 public class FileCDRRepository implements ICDRRepository {
 
@@ -12,9 +18,11 @@ public class FileCDRRepository implements ICDRRepository {
 	private ArrayList<RegistroCDR> listCDR = new ArrayList<RegistroCDR>();
 	private BufferedReader in;
 	
+	public FileCDRRepository() {
+	}
+	
 	public FileCDRRepository(String url) {
 		this.url=url;
-		dowloadDataCDR();
 	}
 	
 	public void connect() {
@@ -44,6 +52,7 @@ public class FileCDRRepository implements ICDRRepository {
 				RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
 				listCDR.add(cdr);
 			}
+			in.close();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -51,8 +60,59 @@ public class FileCDRRepository implements ICDRRepository {
 		}
 	}
 	
+	public String tranformCDRtoString(RegistroCDR cdr) {
+		String strDuracion = String.valueOf(cdr.getTiempoDuracionSegundos());
+		String strCosto = String.valueOf(cdr.getCosto());
+		String str = cdr.getTelefonoOrigen()+", "+cdr.getTelefonoDestino()+", "+cdr.getFecha()+", "+cdr.getHora()+", "+strDuracion+", "+strCosto;
+		return str;
+	}
+	
+	public String headerCDR() {
+		return "telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion, costo";
+	}
+	
+	public String getStringActualTime() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy,HHmmss");  
+	    Date date = new Date();
+	    String strDate = formatter.format(date);  
+		return strDate;
+	}
+	
 	@Override
 	public ArrayList<RegistroCDR> getList() {
+		dowloadDataCDR();
 		return listCDR;
+	}
+
+	@Override
+	public void saveCDRsHistorial(ArrayList<RegistroCDR> lista) {
+	    String ruta = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\Historial\\";
+	    String namefileDarte = getStringActualTime();
+	    String url = ruta + namefileDarte + ".txt";
+	    String cdrStr = "";
+	    
+		File file = new File(url);
+		FileOutputStream fos;
+		
+		try {
+			fos = new FileOutputStream(file);
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+			 
+			bw.write(headerCDR());
+			bw.newLine();
+			
+			for (int i = 0; i < lista.size() ; i++) {
+				RegistroCDR cdr = lista.get(i);
+				cdrStr = tranformCDRtoString(cdr);
+				bw.write(cdrStr);
+				bw.newLine();
+			}
+		 
+			bw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
