@@ -32,13 +32,15 @@ public class Interface {
 		context.put("cdrs", cdrs);
 
 		// 4
-		Template template = engine.getTemplate(
-				"G:\\FidelRojas\\UCB\\arqui\\Tarificador-Interface\\tarificador\\src\\main\\resources\\outputs\\listaCdrs.vm");
-
+		//Template template = engine.getTemplate();
+		FileOutputStream fos;
+		String file = "src/main/resources/templates/listaCdrs.vm";
+		
+		Template template = engine.getTemplate(file);
 		// 5
 		try {
 			FileWriter fileWriter = new FileWriter(new File("src/main/resources/outputs/listaCdrs.html"));
-			template.merge(context, fileWriter);
+			//template.merge(context, fileWriter);
 			fileWriter.flush();
 			fileWriter.close();
 
