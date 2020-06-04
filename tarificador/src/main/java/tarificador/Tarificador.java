@@ -1,6 +1,6 @@
 package tarificador;
 
-public class Tarificador {
+public class Tarificador implements TarificadorBoundary {
 	private RegistroCDR registro;
 	
 	public double calcularCostoLlamada() {
@@ -14,7 +14,7 @@ public class Tarificador {
 		this.registro = registro;
 	}
 	
-	private CalculadorDeCosto crearCalculador() {
+	public CalculadorDeCosto crearCalculador() {
 		ListaClientes LC= ListaClientes.getInstance();
 		Cliente cliente = LC.buscar(this.registro.getTelefonoOrigen());
 		String plan = cliente.getPlan();
