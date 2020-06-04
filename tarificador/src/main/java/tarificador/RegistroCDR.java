@@ -1,12 +1,5 @@
 package tarificador;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-
-import javax.swing.JOptionPane;
-
 public class RegistroCDR {
 	private String telefonoOrigen;
 	private String telefonoDestino;
@@ -65,29 +58,5 @@ public class RegistroCDR {
 	public String retornarCadenaCDR(String separador){
 		String cadena= telefonoOrigen+separador+telefonoDestino+separador+fecha +separador+hora+separador+tiempoDuracionSegundo+separador+costo;
 		return cadena;
-	}
-	public void registrarCDRaFichero() {
-		String nombreFichero="CDR.txt";
-		String cadena= retornarCadenaCDR(" ");
-		
-		File f;
-		FileWriter w;
-		BufferedWriter bw;
-		PrintWriter wr;
-		
-		try {
-			f= new File(nombreFichero);
-			w= new FileWriter(f,true);
-			bw=new BufferedWriter(w);
-			wr=new PrintWriter(bw);
-			
-			wr.append(cadena+"\n");
-			
-			wr.close();
-			bw.close();
-		}catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ha sucedido un error"+e);
-		}
-		
 	}
 }

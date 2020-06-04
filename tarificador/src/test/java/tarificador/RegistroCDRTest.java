@@ -55,19 +55,4 @@ class RegistroCDRTest {
 		String cadenaRespuesta="a b 2020 15 10 11.5"; 
 		assertEquals(cadenaRespuesta, test.retornarCadenaCDR(" "), "Esperamos a b 2020 15 10 11.5");
 	}
-	
-	@Test
-	void guardar()
-	{
-		RegistroCDR test = new RegistroCDR(); 
-		test.setTelefonoOrigen("a");
-		test.setTelefonoDestino("b");
-		test.setFecha("2020");
-		test.setHora("15");
-		test.setTiempoDuracionSegundos(10);
-		test.setCosto(11.5);
-		String cadenaRespuesta="a b 2020 15 10 11.5"; 
-		test.registrarCDRaFichero();
-		assertEquals(cadenaRespuesta, test.retornarCadenaCDR(" "), "Esperamos a b 2020 15 10 11.5");
-	}
 }
