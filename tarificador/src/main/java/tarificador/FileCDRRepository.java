@@ -86,7 +86,7 @@ public class FileCDRRepository implements ICDRRepository {
 
 	@Override
 	public void saveCDRsHistorial(ArrayList<RegistroCDR> lista) {
-	    String ruta = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\Historial\\";
+	    String ruta = "datas\\file\\Historial\\";
 	    String namefileDarte = getStringActualTime();
 	    String url = ruta + namefileDarte + ".txt";
 	    String cdrStr = "";
