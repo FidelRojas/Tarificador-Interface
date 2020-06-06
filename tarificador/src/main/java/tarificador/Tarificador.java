@@ -32,4 +32,6 @@ public class Tarificador implements TarificadorBoundary {
 		}
 		return null;
 	}
+	
+	
 }
