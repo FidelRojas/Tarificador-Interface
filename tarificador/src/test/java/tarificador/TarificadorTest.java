@@ -83,9 +83,7 @@ class TarificadorTest {
 		Tarificador tarificador = new Tarificador();
 		tarificador.setRegistro(testCDR);
 		tarificador.calcularCostoLlamada();
-		testCDR.registrarCDRaFichero();
 		assertEquals(2.5833333333333335,tarificador.calcularCostoLlamada(), "Horario Normal, esperamos 2.58");
-
 
 	}
 	

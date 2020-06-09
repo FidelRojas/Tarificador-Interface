@@ -1,0 +1,8 @@
+id, nombre, numero, plan, amigo0, amigo1, amigo2, amigo3
+1, Pedro, 70724245, Wow, 72222300, 70724245 
+2, Fidel, 70442222, PostPago
+3, Elizabeth, 70304423, PrePago
+4, Jack, 60303030, Wow, 72222300, 70724245 
+5, Maria, 71334422, PostPago
+6, Julia, 70801234, Wow, 72222300, 70809000
+7, Valeria, 72222300, PrePago
