@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Tarificar</title>
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +38,7 @@
             color: white;
         }
 
+       
         .button {
 		  border: none;
 		  color: white;
@@ -57,23 +58,35 @@
 
 <body>
 
-    <div class="topnav">
-        <a href="/">Inicio</a>
-        <a href="/configurar">Configuracion</a>
-        <a class="active" href="/cargarTXT">Cargar CDRs</a>
-        <a href="/tarificar">Tarificacion</a>
-        <a href="/help" style="color: red;">Salir </a>
-    </div>
-    <div style="padding-left:16px">
-        <h1>Cargar datos desde un archivo de texto </h1>
+  <div class="topnav">
+      <a href="/">Inicio</a>
+      <a class="active" href="/configurar">Configuracion</a>
+      <a href="/cargarTXT">Cargar CDRs</a>
+      <a href="/tarificar">Tarificacion</a>
+      <a href="/help" style="color: red;">Salir </a>
+  </div>
 
-        <form action="/cargarTXTpaht">
-            <label for="ruta">Ruta del archicvo de texto:</label><br>
-            <input type="text" id="ruta" name="ruta" value=""><br>
-          
-            <input class="button button1" type="submit" value="Cargar">
-          </form> 
+  <div style="padding:16px">
+    <h2>Configuracion </h2>
+    <div>
+      <form action="/configurar"> 
+          <p>Seleccione el tipo de percistencia</p>
+
+        #if( $persistencia== "SQL" )
+          <input type="radio" id="SQL" name="percistencia" value="SQL" checked>
+          <label for="male">SQL</label><br>
+          <input type="radio" id="TXT" name="percistencia" value="TXT">
+          <label for="TXT">TXT</label><br>
+          <input class="button button1" type="submit" value="Cambiar">
+        #else
+          <input type="radio" id="SQL" name="percistencia" value="SQL">
+          <label for="male">SQL</label><br>
+          <input type="radio" id="TXT" name="percistencia" value="TXT" checked>
+          <label for="TXT">TXT</label><br>
+          <input class="button button1" type="submit" value="Cambiar">
+        #end
+      </form>
     </div>
+	</div>
+
 </body>
-
-</html>

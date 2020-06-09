@@ -1,19 +1,13 @@
-<html>
-	<head>
-		<title>${title}</title>
-	</head>
+
   <body>
     <table>
-    #foreach( $cdr in $cdrs )
-      ##if ( $customer.hasPurchased($mud) )
-      ##end
+   
+   
         <tr>
           <td>
-            $customer.getTelefonoOrigen()
+            $cdrs.getTelefonoOrigen()
           </td>
         </tr>
-      
-    #end
+   
     </table>
   </body>
-</html>
