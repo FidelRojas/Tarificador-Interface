@@ -1,11 +1,12 @@
 package tarificador;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Central {
 	HashMap<String, String> configuraciones;
 	private TarificadorBoundary tarificador;
-	private RegistroCDR[] CDRsCargados;
+	private ArrayList<RegistroCDR> CDRsCargados;
 	public Central() {
 		tarificador = new Tarificador();
 		ListaClientes LC= ListaClientes.getInstance();
@@ -14,21 +15,31 @@ public class Central {
 	}
 	public void cargarCDRsDesdeTexto(String path) {
 //		TODO
+		FileCDRRepository FileRepo = new FileCDRRepository(path);
+		CDRsCargados = FileRepo.getList();
 		
 	}
+	
+	public void debugMostrar() {
+		FileCDRRepository FileRepo = new FileCDRRepository();
+		for(RegistroCDR registro : CDRsCargados) {
+			System.out.println(FileRepo.tranformCDRtoString(registro));
+		}
+	}
+	
 	public double tarificarCDR(RegistroCDR registro) {
 		tarificador.setRegistro(registro);
 		return tarificador.calcularCostoLlamada();
 	}
 	
-	public void tarificarUnaListaDeCDRs(RegistroCDR [] registros) {
+	public void tarificarUnaListaDeCDRs(ArrayList<RegistroCDR> registros) {
 		for(RegistroCDR registro : registros) {
 			tarificador.setRegistro(registro);
 			tarificador.calcularCostoLlamada();
 		}
 	}
 	
-	public RegistroCDR[] tarificarCDRsCargados() {
+	public ArrayList<RegistroCDR> tarificarCDRsCargados() {
 		for(RegistroCDR registro : CDRsCargados) {
 			tarificador.setRegistro(registro);
 			tarificador.calcularCostoLlamada();

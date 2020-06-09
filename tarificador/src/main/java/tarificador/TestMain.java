@@ -19,11 +19,12 @@ public class TestMain {
 		Tarificador tarificador = new Tarificador();
 		tarificador.setRegistro(testCDR);
 		tarificador.calcularCostoLlamada();
-		testCDR.registrarCDRaFichero();
 		
 		Central central = new Central();
 		double resultado = central.tarificarCDR(testCDR);
 		System.out.println(resultado);;
 		central.cambiarConfiguracion("persistencia", "baseDeDatos");
+		central.cargarCDRsDesdeTexto("D:\\CDRs.txt");
+		central.debugMostrar();
 	}
 }
