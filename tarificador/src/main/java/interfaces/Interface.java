@@ -12,14 +12,16 @@ import java.util.Map;
 
 import java.io.IOException;
 
+import tarificador.Central;
 import tarificador.RegistroCDR;
 
 public class Interface {
+	static Central central ;
 	private static String persistencia = "SQL";
-	private static String pathTXT = "";
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
-	public static void run() {
+	public static void run(Central _central) {
+		central=_central;
 		get("/", (request, response) -> homeHtml());
 		get("/tarificar", (request, response) -> tarificarHtml());
 		get("/configurar", (request, response) -> {
@@ -55,14 +57,14 @@ public class Interface {
 		});
 	}
 	private static String guardartarificacionBound() {
-		//aqui va codigo de tarificar
+		central.guardarResultados();
 		cdrsSinTarificar= new ArrayList<RegistroCDR>();
 		cdrsTarificados= new ArrayList<RegistroCDR>();
 		return readHtml("home");
 	}
 	private static String tarificarBound() {
-		//aqui va codigo de tarificar
-		cdrsTarificados=getCdrs();
+		
+		cdrsTarificados=central.tarificarCDRsCargados();
 		return readHtml("home");
 	}
 	private static String descartarCdrsSinTarificar() {
@@ -79,10 +81,8 @@ public class Interface {
 
 	private static String cargar_CDRSHtml(String path) {
 		if(path != null) {
-			pathTXT=path;
-			//aca llamar al boundary,
-			//cdrsSinTarificar=funcion(path);
-			cdrsSinTarificar=getCdrs();
+			central.cargarCDRsDesdeTexto(path);
+			cdrsSinTarificar=central.getCdrsCargados();
 		}
 		String html = readHtml("cargar_CDRS");
 		return html;
@@ -99,7 +99,7 @@ public class Interface {
 	private static String configurarHtml(String per) {
 		if(per != null) {
 			persistencia=per;
-			//aca llamar al boundary, per puede ser SQL o TXT
+			central.cambiarConfiguracion("persistencia", per);
 		}
 		Map<String, Object> model = new HashMap<>();
 		model.put("persistencia", persistencia);
@@ -122,16 +122,7 @@ public class Interface {
 		return contentBuilder.toString();
 	}
 
-	private static String html() {
 
-		String head = "<h2>Tarificacion de CDRs</h2>" + "<table>" + "  <tr>" + "    <th>Origen</th>"
-				+ "    <th>Destino</th>" + "    <th>Fecha</th>" + "    <th>Hora</th>" + "    <th>Duración</th>"
-				+ "    <th>Costo</th>" + "  </tr>";
-		String body = getCdrsTable();
-		String end = "</table>" + "</div>" + "</body>";
-
-		return head + body + end;
-	}
 
 	private static List<RegistroCDR> getCdrs() {
 		List<RegistroCDR> cdrs = new ArrayList<RegistroCDR>();
@@ -149,31 +140,5 @@ public class Interface {
 		return cdrs;
 	}
 
-	private static String getCdrsTable() {
-		ArrayList<RegistroCDR> cdrs = new ArrayList<RegistroCDR>();
-		RegistroCDR test = new RegistroCDR();
-		test.setTelefonoOrigen("77777777");
-		test.setTelefonoDestino("76666666");
-		test.setFecha("22022020");
-		test.setHora("2200");
-		test.setTiempoDuracionSegundos(10);
-		test.setCosto(11.5);
-
-		cdrs.add(test);
-		cdrs.add(test);
-		cdrs.add(test);
-		String res = "";
-		for (RegistroCDR c : cdrs) {
-			res = res + getRegistoCdrTable(c);
-		}
-		return res;
-	}
-
-	private static String getRegistoCdrTable(RegistroCDR r) {
-		String res = " <tr>" + "    <td>" + r.getTelefonoOrigen() + "</td>" + "    <td>" + r.getTelefonoDestino()
-				+ "</td>" + "    <td>" + r.getFecha() + "</td>" + "    <td>" + r.getHora() + "</td>" + "    <td>"
-				+ r.getTiempoDuracionSegundos() + "</td>" + "    <td>" + r.getCosto() + "</td>" + "</tr>";
-
-		return res;
-	}
+	
 }
