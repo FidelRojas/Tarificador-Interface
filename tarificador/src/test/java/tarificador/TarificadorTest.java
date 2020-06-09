@@ -27,6 +27,9 @@ class TarificadorTest {
 		testCDR.setHora("15");
 		testCDR.setTiempoDuracionSegundos(10);
 		
+		double resultado = 0.0;
+		Central central = new Central();
+		resultado = central.tarificarCDR(testCDR);
 		
 		Tarificador tarificador = new Tarificador();
 		tarificador.setRegistro(testCDR);
@@ -34,7 +37,7 @@ class TarificadorTest {
 		
 
 		
-		assertEquals(0,tarificador.calcularCostoLlamada(), "Esperamos que costo sea 0");
+		assertEquals(0,resultado, "Esperamos que costo sea 0");
 	}
 	@Test
 	void testWoWNoEsAmigo() {

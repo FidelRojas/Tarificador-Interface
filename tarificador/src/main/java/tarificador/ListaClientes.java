@@ -27,6 +27,22 @@ public class ListaClientes {
 		}
 		return null;
 	}
+	public String getPlanDeCliente(String numeroBuscado) {
+		String numeroCliente;
+		for(Cliente cliente : clientes) {
+			numeroCliente = cliente.getNumero();
+			if(numeroCliente.contentEquals(numeroBuscado)) {
+				return cliente.getPlan();
+			}
+		}
+		System.out.println("#"+numeroBuscado+"#"+ " Not found");
+		return "PrePago";
+	}
+	public void mostrarNumeros() {
+		for(Cliente cliente : clientes) {
+			System.out.println(cliente.getNumero());
+		}
+	}
 	public void añadir(Cliente nuevoCliente) {
 		clientes.add(nuevoCliente);
 	}
