@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarificar</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: rgb(62, 114, 255);
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: rgb(62, 114, 255);
+            color: white;
+        }
+        .button {
+		  border: none;
+		  color: white;
+		  padding: 15px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		}
+		
+		.button1 {background-color: #4CAF50;} /* Green */
+		.button2 {background-color: #008CBA;} /* Blue */
+    </style>
+</head>
+
+<body>
+
+    <div class="topnav">
+        <a href="/">Inicio</a>
+        <a href="/configurar">Configuracion</a>
+        <a href="/cargarTXT">Cargar CDRs</a>
+        <a class="active" href="/tarificar">Tarificacion</a>
+        <a href="/help" style="color: red;">Salir </a>
+    </div>
+
+    <div style="padding:16px">
+     	<h2>Lista de CDR sin Tarificar</h2>
+		<table style="border: 1px solid black">
+      	<tr>
+        <th>Telefono Origen</th>
+        <th>Telefono Destino</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Duracion</th>
+      	</tr>
+      	#foreach($registro in $cdrs)
+      	<tr>
+            <td>$registro.getTelefonoOrigen()</td>
+            <td>$registro.getTelefonoDestino()</td>
+            <td>$registro.getFecha()</td>
+            <td>$registro.getHora()</td>
+            <td>$registro.getTiempoDuracionSegundos()</td>
+      	</tr>
+      	#end
+      	</table>
+        <form action="/tarificar" method="post">
+            <input  class="button button1" type="submit" name="Tatificar" value="Tatificar" />
+        </form>
+         <form action="/descarcarCarga" method="post">
+            <input  class="button button2" type="submit" name="DescartarCarga" value="Descartar Carga" />
+        </form>
+		
+		<hr>
+		<h2>Lista de CDR Tarificados</h2>
+		<table style="border: 1px solid black">
+      	<tr>
+        <th>Telefono Origen</th>
+        <th>Telefono Destino</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Duracion</th>
+        <th>Costo</th>
+      	</tr>
+      	#foreach($registro in $cdrsTarificados)
+      	<tr>
+            <td>$registro.getTelefonoOrigen()</td>
+            <td>$registro.getTelefonoDestino()</td>
+            <td>$registro.getFecha()</td>
+            <td>$registro.getHora()</td>
+            <td>$registro.getTiempoDuracionSegundos()</td>
+            <td>$registro.getCosto()</td>
+      	</tr>
+      	#end
+      	</table>
+          <div>
+            <form action="/guardar" method="post">
+                <input  class="button button1" type="submit" name="Guardar" value="Guardar" />
+            </form>
+            <form action="/descarcarTarificacion" method="post">
+                <input  class="button button2" type="submit" name="descarcarTarificacion" value="Descartar Tarificacion" />
+            </form>
+          </div>
+      	  
+	
+	</div>
+</body>

@@ -39,9 +39,9 @@
 
   <div class="topnav">
     <a href="/">Inicio</a>
-    <a href="/tarificar">Tarificacion</a>
-    <a href="/cargarTXT">Cargar CDRs</a>
     <a class="active" href="/configurar">Configuracion</a>
+    <a href="/cargarTXT">Cargar CDRs</a>
+    <a href="/tarificar">Tarificacion</a>
     <a href="/help" style="color: red;">Salir </a>
   </div>
 
@@ -49,7 +49,7 @@
 
     <h1>Configuracion</h1>
 
-    <form action="/configurar">
+    <form action="/configurar" method="GET"> 
       <p>Seleccione el tipo de percistencia</p>
       <input type="radio" id="SQL" name="percistencia" value="SQL">
       <label for="male">SQL</label><br>
