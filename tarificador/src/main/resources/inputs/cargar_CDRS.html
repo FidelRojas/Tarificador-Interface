@@ -37,6 +37,21 @@
             background-color: rgb(62, 114, 255);
             color: white;
         }
+
+        .button {
+		  border: none;
+		  color: white;
+		  padding: 15px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		}
+		
+		.button1 {background-color: #4CAF50;} /* Green */
+		.button2 {background-color: #008CBA;} /* Blue */
     </style>
 </head>
 
@@ -44,19 +59,20 @@
 
     <div class="topnav">
         <a href="/">Inicio</a>
-        <a href="/tarificar">Tarificacion</a>
-        <a class="active" href="/cargarTXT">Cargar CDRs</a>
         <a href="/configurar">Configuracion</a>
+        <a class="active" href="/cargarTXT">Cargar CDRs</a>
+        <a href="/tarificar">Tarificacion</a>
         <a href="/help" style="color: red;">Salir </a>
     </div>
     <div style="padding-left:16px">
-        <h1>Seleccion el archivo de texto que desea cargar </h1>
+        <h1>Cargar datos desde un archivo de texto </h1>
 
-        <form action="/cargarTXT">
-            <label for="myfile">Selecione un archivo de texto:</label>
-            <input type="file" id="myfile" name="myfile"><br><br>
-            <input type="submit">
-        </form>
+        <form action="/cargarTXTpaht">
+            <label for="ruta">Ruta del archicvo de texto:</label><br>
+            <input type="text" id="ruta" name="ruta" value=""><br>
+          
+            <input class="button button1" type="submit" value="Cargar">
+          </form> 
     </div>
 </body>
 

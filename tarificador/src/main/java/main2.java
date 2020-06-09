@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import tarificador.FileCDRRepository;
 import tarificador.ICDRRepository;
 import tarificador.RegistroCDR;
-import tarificador.SQLiteCDRRepository;
 
 public class main2 {
 
