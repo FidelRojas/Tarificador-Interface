@@ -36,8 +36,6 @@ public class TestMain {
 		testCDR.setHora("19:00");
 		testCDR.setTiempoDuracionSegundos(155);
 		
-
-		LC.mostrarNumeros();
 		Tarificador tarificador = new Tarificador();
 		tarificador.setRegistro(testCDR);
 		tarificador.calcularCostoLlamada();
@@ -45,6 +43,8 @@ public class TestMain {
 		Central central = new Central();
 		double resultado = central.tarificarCDR(testCDR);
 		System.out.println(resultado);;
+		
+		
 		central.cambiarConfiguracion("persistencia", "baseDeDatos");
 		central.cargarCDRsDesdeTexto("D:\\CDRs.txt");
 		central.debugMostrar();

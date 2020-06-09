@@ -27,13 +27,15 @@ public class ListaClientes {
 		}
 		return null;
 	}
-	public String getPlanDeCliente(String numero) {
+	public String getPlanDeCliente(String numeroBuscado) {
+		String numeroCliente;
 		for(Cliente cliente : clientes) {
-			if(cliente.getNumero()==numero) {
+			numeroCliente = cliente.getNumero();
+			if(numeroCliente.contentEquals(numeroBuscado)) {
 				return cliente.getPlan();
 			}
 		}
-		System.out.println("#"+numero+"#"+ " Not found");
+		System.out.println("#"+numeroBuscado+"#"+ " Not found");
 		return "PrePago";
 	}
 	public void mostrarNumeros() {

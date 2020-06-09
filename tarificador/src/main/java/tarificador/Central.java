@@ -9,7 +9,7 @@ public class Central {
 	private ArrayList<RegistroCDR> CDRsCargados;
 	public Central() {
 		tarificador = new Tarificador();
-		ListaClientes LC= ListaClientes.getInstance();
+		// ListaClientes LC= ListaClientes.getInstance();
 		configuraciones = new HashMap<String, String>();
 		configuraciones.put("persistencia", "guardarEnTxt");
 	}
