@@ -11,10 +11,9 @@ public class Central {
 		tarificador = new Tarificador();
 		ListaClientes LC= ListaClientes.getInstance();
 		configuraciones = new HashMap<String, String>();
-		configuraciones.put("persistencia", "guardarATxt");
+		configuraciones.put("persistencia", "guardarEnTxt");
 	}
 	public void cargarCDRsDesdeTexto(String path) {
-//		TODO
 		FileCDRRepository FileRepo = new FileCDRRepository(path);
 		CDRsCargados = FileRepo.getList();
 		
@@ -59,11 +58,12 @@ public class Central {
 	}
 	
 	public void guardarResultados() {
-		if(configuraciones.get("persistencia")== "guardarATxt") {
-			
+		if(configuraciones.get("persistencia")== "guardarEnTxt") {
+			FileCDRRepository FileRepo = new FileCDRRepository();
+			FileRepo.saveCDRsHistorial(CDRsCargados);
 		}
-		else if(configuraciones.get("persistencia")=="guardarABaseDatos") {
-			
+		else if(configuraciones.get("persistencia")=="guardarEnBaseDatos") {
+			System.out.println("TODO: Guardar en Base de Datos");
 		}
 	}
 	

@@ -16,8 +16,7 @@ public class Tarificador implements TarificadorBoundary {
 	
 	public CalculadorDeCosto crearCalculador() {
 		ListaClientes LC= ListaClientes.getInstance();
-		Cliente cliente = LC.buscar(this.registro.getTelefonoOrigen());
-		String plan = cliente.getPlan();
+		String plan = LC.getPlanDeCliente(this.registro.getTelefonoOrigen());
 		if (plan == "Wow") {
 			CalculadorDeCosto calculador = new CalculadorPlanWow();
 			return calculador;
