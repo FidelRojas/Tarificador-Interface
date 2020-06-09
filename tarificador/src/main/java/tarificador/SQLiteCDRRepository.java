@@ -112,4 +112,38 @@ public class SQLiteCDRRepository implements ICDRRepository {
 		
 	}
 
+	@Override
+	public ArrayList<RegistroCDR> getCDRfrom(String numeroOrigen) {
+		ResultSet result = null;
+		
+		ArrayList<RegistroCDR> listaAuxiliar = new ArrayList<RegistroCDR>();
+		String telefonoOrigen="";
+		String telefonoDestino="";
+		String fecha="";
+		String hora="";
+		int tiempoDuracion;
+		String consulSQL="select * from CDR where telefonoOrigen=" + numeroOrigen;
+		
+		connect();
+		try {
+			PreparedStatement st = connect.prepareStatement(consulSQL);
+			result = st.executeQuery();
+			while(result.next()) {
+				
+				telefonoOrigen = result.getString(2);
+				telefonoDestino = result.getString(3);
+				fecha = result.getString(4);
+				hora = result.getString(5);
+				tiempoDuracion = result.getInt(6);
+				
+				RegistroCDR cdr = new RegistroCDR(telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion);
+				listaAuxiliar.add(cdr);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		close();
+		return listaAuxiliar;
+	}
+
 }

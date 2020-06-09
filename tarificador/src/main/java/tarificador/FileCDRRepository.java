@@ -115,4 +115,40 @@ public class FileCDRRepository implements ICDRRepository {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public ArrayList<RegistroCDR> getCDRfrom(String numeroOrigen) {
+		ArrayList<RegistroCDR> listaAuxiliar = new ArrayList<RegistroCDR>();
+		
+		connect();
+		String str = "";
+		int duracion;
+		
+		try {
+			str = in.readLine(); // skip header
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		try {
+			while ((str = in.readLine()) != null) {
+				String[] data = str.split(", ");
+				String telefonoOrigen = data[1];
+				
+				if(telefonoOrigen.equals(numeroOrigen)) {
+					duracion = Integer.parseInt(data[5]);
+					RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
+					listaAuxiliar.add(cdr);
+				}
+			}
+			in.close();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return listaAuxiliar;
+	}
 }

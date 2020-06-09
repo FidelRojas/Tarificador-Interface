@@ -4,10 +4,26 @@ import java.util.ArrayList;
 import tarificador.FileCDRRepository;
 import tarificador.ICDRRepository;
 import tarificador.RegistroCDR;
+import tarificador.SQLiteCDRRepository;
 
 public class maindate {
 	public static void main(String[] args) {
-		pruebaHistorialCDR();
+		//pruebaHistorialCDR();
+		pruebaTenerCDRsProvenientesDeUnNumero();
+	}
+	
+	public static void pruebaTenerCDRsProvenientesDeUnNumero() {
+		//String url="datas\\sql\\dataBaseCentral.db";
+		String url2 = "datas\\file\\CDR.txt";
+		//ICDRRepository c = new SQLiteCDRRepository(url);
+		ICDRRepository c = new FileCDRRepository(url2);
+		ArrayList<RegistroCDR> listCDR = c.getCDRfrom("70442222");
+		RegistroCDR registro;
+		
+		for (int i=0;i<listCDR.size();i++) {
+			registro=listCDR.get(i);
+			System.out.println("Origen: " + registro.getTelefonoOrigen() + " Destino: " + registro.getTelefonoDestino() + " Fecha: " + registro.getFecha() + " Hora: " + registro.getHora() + " Duracion: " + registro.getTiempoDuracionSegundos() + " Costo: " + registro.getCosto());
+		}
 	}
 	
 	public static void pruebaHistorialCDR() {
