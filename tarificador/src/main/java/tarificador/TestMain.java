@@ -24,5 +24,6 @@ public class TestMain {
 		Central central = new Central();
 		double resultado = central.tarificarCDR(testCDR);
 		System.out.println(resultado);;
+		central.cambiarConfiguracion("persistencia", "baseDeDatos");
 	}
 }
