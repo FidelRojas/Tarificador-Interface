@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 
 import tarificador.FileCDRRepository;
+import tarificador.Historial;
 import tarificador.ICDRRepository;
 import tarificador.RegistroCDR;
 import tarificador.SQLiteCDRRepository;
@@ -11,7 +12,10 @@ public class mainPruebas {
 		//pruebaMostrarCDRs();
 		//pruebaHistorialCDR();
 		//pruebaTenerCDRsProvenientesDeUnNumero();
-		//pruebaGuardarCDRsSQL();
+		pruebaGuardarCDRsSQL();
+		//pruebaGuardarHistorialSql();
+		//obtenerHistorialesDeTarificaciones();
+		//pruebaObtenerCDRdeUnHistorial();
 	}
 	
 	public static void pruebaGuardarCDRsSQL() {
@@ -32,7 +36,7 @@ public class mainPruebas {
 		
 		//String url2 = "datas\\file\\CDR.txt";
 		//ICDRRepository c = new FileCDRRepository(url2);
-		ArrayList<RegistroCDR> listCDR = c.obtenerCDRsTarificadosDe("70442222");
+		ArrayList<RegistroCDR> listCDR = c.obtenerCDRsTarificadosDe("68442222");
 		RegistroCDR registro;
 		
 		for (int i=0;i<listCDR.size();i++) {
@@ -60,6 +64,35 @@ public class mainPruebas {
 		//ICDRRepository c = new FileCDRRepository(url2);
 		
 		ArrayList<RegistroCDR> listCDR = c.getList();
+		for (RegistroCDR cdr : listCDR)
+		{
+			System.out.println("Origen: " + cdr.getTelefonoOrigen() + " Destino: " + cdr.getTelefonoDestino() + " Fecha: " + cdr.getFecha() + " Hora: " + cdr.getHora() + " Duracion: " + cdr.getTiempoDuracionSegundos() + " Costo: " + cdr.getCosto());
+		}
+	}
+	
+	public static void pruebaGuardarHistorialSql() {
+		String url="E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\sql\\dataBaseCentral.db";
+		SQLiteCDRRepository c = new SQLiteCDRRepository(url);
+		c.registrarFechaHistorial();
+	}
+	
+	public static void obtenerHistorialesDeTarificaciones() {
+		String url="E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\sql\\dataBaseCentral.db";
+		SQLiteCDRRepository c = new SQLiteCDRRepository(url);
+		
+		ArrayList<Historial> historiales = c.obtenerHistorialDeTarificaciones();
+		for (Historial historial : historiales)
+		{
+			System.out.println("Id: " + historial.getId() + " Fecha Hora: " + historial.getFechaHora());
+		}
+	}
+	
+	public static void pruebaObtenerCDRdeUnHistorial() {
+		String url="E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\sql\\dataBaseCentral.db";
+		SQLiteCDRRepository c = new SQLiteCDRRepository(url);
+		
+		Historial h = new Historial(1,"44665");
+		ArrayList<RegistroCDR> listCDR = c.obtenerCDRsTarificadasSegun(h);
 		for (RegistroCDR cdr : listCDR)
 		{
 			System.out.println("Origen: " + cdr.getTelefonoOrigen() + " Destino: " + cdr.getTelefonoDestino() + " Fecha: " + cdr.getFecha() + " Hora: " + cdr.getHora() + " Duracion: " + cdr.getTiempoDuracionSegundos() + " Costo: " + cdr.getCosto());
