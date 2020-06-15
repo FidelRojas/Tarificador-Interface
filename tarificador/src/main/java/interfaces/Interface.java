@@ -20,6 +20,7 @@ public class Interface {
 	private static String persistencia = "SQL";
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
+	
 	public static void run(Central _central) {
 		central=_central;
 		get("/", (request, response) -> homeHtml());
@@ -121,7 +122,6 @@ public class Interface {
 		}
 		return contentBuilder.toString();
 	}
-
 
 
 	private static List<RegistroCDR> getCdrs() {
