@@ -22,7 +22,7 @@ public class Central {
 	public void debugMostrar() {
 		FileCDRRepository FileRepo = new FileCDRRepository();
 		for(RegistroCDR registro : CDRsCargados) {
-			System.out.println(FileRepo.tranformCDRtoString(registro));
+			System.out.println(FileRepo.transformarCDRaString(registro));
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class Central {
 	public void guardarResultados() {
 		if(configuraciones.get("persistencia").equals("TXT")) {
 			FileCDRRepository FileRepo = new FileCDRRepository();
-			FileRepo.saveCDRsHistorial(CDRsCargados);
+			FileRepo.guardarCDRsTarificadosHistorial(CDRsCargados);
 		}
 		else if(configuraciones.get("persistencia")=="SQL") {
 			System.out.println("TODO: Guardar en Base de Datos");

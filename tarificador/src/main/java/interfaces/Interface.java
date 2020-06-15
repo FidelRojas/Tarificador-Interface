@@ -21,7 +21,9 @@ public class Interface {
 	private static String persistencia = "SQL";
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
+
 	private static List<Historial> historial = new ArrayList<Historial>();
+
 	public static void run(Central _central) {
 		central=_central;
 		get("/", (request, response) -> homeHtml());
@@ -153,5 +155,22 @@ public class Interface {
 		}
 		return contentBuilder.toString();
 	}
+
+	private static List<RegistroCDR> getCdrs() {
+		List<RegistroCDR> cdrs = new ArrayList<RegistroCDR>();
+		RegistroCDR test = new RegistroCDR();
+		test.setTelefonoOrigen("77777777");
+		test.setTelefonoDestino("76666666");
+		test.setFecha("22022020");
+		test.setHora("2200");
+		test.setTiempoDuracionSegundos(10);
+		test.setCosto(11.5);
+
+		cdrs.add(test);
+		cdrs.add(test);
+		cdrs.add(test);
+		return cdrs;
+	}
+
 	
 }
