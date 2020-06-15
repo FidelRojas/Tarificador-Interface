@@ -15,7 +15,7 @@ import java.util.Date;
 public class FileCDRRepository implements ICDRRepository {
 
 	private String url = "";
-	private ArrayList<RegistroCDR> listCDR = new ArrayList<RegistroCDR>();
+	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();
 	private BufferedReader in;
 	
 	public FileCDRRepository() {
@@ -25,7 +25,7 @@ public class FileCDRRepository implements ICDRRepository {
 		this.url=url;
 	}
 	
-	public void connect() {
+	public void conectar() {
 		try {
 			in = new BufferedReader(new FileReader(url));
 		} catch (FileNotFoundException e) {
@@ -33,15 +33,22 @@ public class FileCDRRepository implements ICDRRepository {
 		}
 	}
 	
-	public void dowloadDataCDR() {
-		connect();
+	public void cerrarConexion() {
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void cargarCDRs() {
 		String str = "";
 		int duracion;
 		
+		conectar();
 		try {
-			str = in.readLine(); // skip header
+			str = in.readLine(); // Saltar Cabecera
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -50,28 +57,28 @@ public class FileCDRRepository implements ICDRRepository {
 				String[] data = str.split(", ");
 				duracion = Integer.parseInt(data[5]);
 				RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
-				listCDR.add(cdr);
+				listaCDRs.add(cdr);
 			}
-			in.close();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		cerrarConexion();
 	}
 	
-	public String tranformCDRtoString(RegistroCDR cdr) {
+	public String transformarCDRaString(RegistroCDR cdr) {
 		String strDuracion = String.valueOf(cdr.getTiempoDuracionSegundos());
 		String strCosto = String.valueOf(cdr.getCosto());
 		String str = cdr.getTelefonoOrigen()+", "+cdr.getTelefonoDestino()+", "+cdr.getFecha()+", "+cdr.getHora()+", "+strDuracion+", "+strCosto;
 		return str;
 	}
 	
-	public String headerCDR() {
+	public String obtenerCabeceraCDR() {
 		return "telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion, costo";
 	}
 	
-	public String getStringActualTime() {
+	public String obtenerTiempoActualEnString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy,HHmmss");  
 	    Date date = new Date();
 	    String strDate = formatter.format(date);  
@@ -80,35 +87,33 @@ public class FileCDRRepository implements ICDRRepository {
 	
 	@Override
 	public ArrayList<RegistroCDR> getList() {
-		dowloadDataCDR();
-		return listCDR;
+		cargarCDRs();
+		return listaCDRs;
 	}
 
 	@Override
-	public void saveCDRsHistorial(ArrayList<RegistroCDR> lista) {
+	public void guardarCDRsTarificadosHistorial(ArrayList<RegistroCDR> listaCDRs) {
 	    String ruta = "datas\\file\\Historial\\";
-	    String namefileDarte = getStringActualTime();
-	    String url = ruta + namefileDarte + ".txt";
+	    String tituloTiempo = obtenerTiempoActualEnString();
+	    String url = ruta + tituloTiempo + ".txt";
 	    String cdrStr = "";
 	    
 		File file = new File(url);
 		FileOutputStream fos;
-		
 		try {
 			fos = new FileOutputStream(file);
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 			 
-			bw.write(headerCDR());
+			bw.write(obtenerCabeceraCDR()); //Escribir en el file la cabecera
 			bw.newLine();
-			
-			for (int i = 0; i < lista.size() ; i++) {
-				RegistroCDR cdr = lista.get(i);
-				cdrStr = tranformCDRtoString(cdr);
+			for (int i = 0; i < listaCDRs.size() ; i++) {
+				RegistroCDR cdr = listaCDRs.get(i);
+				cdrStr = transformarCDRaString(cdr);
 				bw.write(cdrStr);
 				bw.newLine();
 			}
-		 
 			bw.close();
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -117,17 +122,16 @@ public class FileCDRRepository implements ICDRRepository {
 	}
 
 	@Override
-	public ArrayList<RegistroCDR> getCDRfrom(String numeroOrigen) {
-		ArrayList<RegistroCDR> listaAuxiliar = new ArrayList<RegistroCDR>();
+	public ArrayList<RegistroCDR> obtenerCDRsTarificadosDe(String numeroOrigenBuscado) {
 		
-		connect();
+		ArrayList<RegistroCDR> listaCDRsDeUnNumero = new ArrayList<RegistroCDR>();
 		String str = "";
 		int duracion;
 		
+		conectar();
 		try {
-			str = in.readLine(); // skip header
+			str = in.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -136,19 +140,19 @@ public class FileCDRRepository implements ICDRRepository {
 				String[] data = str.split(", ");
 				String telefonoOrigen = data[1];
 				
-				if(telefonoOrigen.equals(numeroOrigen)) {
+				if(telefonoOrigen.equals(numeroOrigenBuscado)) {
 					duracion = Integer.parseInt(data[5]);
 					RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
-					listaAuxiliar.add(cdr);
+					listaCDRsDeUnNumero.add(cdr);
 				}
 			}
-			in.close();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		cerrarConexion();
 		
-		return listaAuxiliar;
+		return listaCDRsDeUnNumero;
 	}
 }

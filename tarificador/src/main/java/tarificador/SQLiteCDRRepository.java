@@ -10,20 +10,17 @@ import java.util.logging.*;
 public class SQLiteCDRRepository implements ICDRRepository {
 
 	private String url = "";
-	private Connection connect;
-	private ArrayList<RegistroCDR> listCDR = new ArrayList<RegistroCDR>();
+	private Connection conexion;
+	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();
 	
 	public SQLiteCDRRepository(String url) {
 		this.url=url;
-		connect();
-		cargarCDR();
-		close();
 	}
 	
-	public void connect() {
+	public void conectar() {
 		try {
-			connect = DriverManager.getConnection("jdbc:sqlite:" + url);
-			if(connect != null) {
+			conexion = DriverManager.getConnection("jdbc:sqlite:" + url);
+			if(conexion != null) {
 				System.out.println("Conectado");
 			}
 		} catch (SQLException e) {
@@ -31,18 +28,18 @@ public class SQLiteCDRRepository implements ICDRRepository {
 		}		
 	}
 	
-	public void close() {
+	public void cerrarConexion() {
 		try {
-			connect.close();
+			conexion.close();
 		} catch (SQLException e) {
 			Logger.getLogger(SQLiteCDRRepository.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 	
-	public void show() {
+	public void mostrarCDRsDeBD() {
 		ResultSet result = null;
 		try {
-			PreparedStatement st = connect.prepareStatement("select * from CDR");
+			PreparedStatement st = conexion.prepareStatement("select * from CDR");
 			result = st.executeQuery();
 			while(result.next()) {
 				System.out.println("Id: ");
@@ -73,16 +70,19 @@ public class SQLiteCDRRepository implements ICDRRepository {
 		}
 	}
 	
-	public void cargarCDR() {
+	public void cargarCDRs() {
 		ResultSet result = null;
+		
 		String telefonoOrigen="";
 		String telefonoDestino="";
 		String fecha="";
 		String hora="";
 		int tiempoDuracion;
-
+		double costo;
+		
+		conectar();
 		try {
-			PreparedStatement st = connect.prepareStatement("select * from CDR");
+			PreparedStatement st = conexion.prepareStatement("select * from CDR");
 			result = st.executeQuery();
 			while(result.next()) {
 				
@@ -91,42 +91,70 @@ public class SQLiteCDRRepository implements ICDRRepository {
 				fecha = result.getString(4);
 				hora = result.getString(5);
 				tiempoDuracion = result.getInt(6);
+				costo = result.getDouble(7);
 				
-				RegistroCDR cdr = new RegistroCDR(telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion);
-				listCDR.add(cdr);
+				RegistroCDR cdr = new RegistroCDR(telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion, costo);
+				listaCDRs.add(cdr);
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
+		cerrarConexion();
 	}
+	
+	public void guardarCDRtarificado(RegistroCDR cdr) {
+		String sql = "INSERT INTO CDR(telefonoOrigen, telefonoDestino, fecha,hora,tiempoDuracion,costo) VALUES(?,?,?,?,?,?)";
+		try{
+            PreparedStatement pstmt = conexion.prepareStatement(sql);
+            
+            pstmt.setString(1, cdr.getTelefonoOrigen());
+            pstmt.setString(2, cdr.getTelefonoDestino());
+            pstmt.setString(3, cdr.getFecha());
+            pstmt.setString(4, cdr.getHora());
+            pstmt.setString(5, String.valueOf(cdr.getTiempoDuracionSegundos()));
+            pstmt.setDouble(6, cdr.getCosto());
+            pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+	}
+	
 	
 	@Override
 	public ArrayList<RegistroCDR> getList() {
 		// TODO Auto-generated method stub
-		return listCDR;
+		cargarCDRs();
+		return listaCDRs;
 	}
 
 	@Override
-	public void saveCDRsHistorial(ArrayList<RegistroCDR> list) {
+	public void guardarCDRsTarificadosHistorial(ArrayList<RegistroCDR> listaCDRs) {
 		// TODO Auto-generated method stub
-		
+		conectar();
+		for (RegistroCDR cdr : listaCDRs)
+		{
+			guardarCDRtarificado(cdr);
+		}
+		cerrarConexion();
 	}
 
 	@Override
-	public ArrayList<RegistroCDR> getCDRfrom(String numeroOrigen) {
+	public ArrayList<RegistroCDR> obtenerCDRsTarificadosDe(String numeroOrigenBuscado) {
 		ResultSet result = null;
 		
-		ArrayList<RegistroCDR> listaAuxiliar = new ArrayList<RegistroCDR>();
+		ArrayList<RegistroCDR> listaCDRsDeUnNumero = new ArrayList<RegistroCDR>();
 		String telefonoOrigen="";
 		String telefonoDestino="";
 		String fecha="";
 		String hora="";
 		int tiempoDuracion;
-		String consulSQL="select * from CDR where telefonoOrigen=" + numeroOrigen;
+		double costo;
 		
-		connect();
+		String consultaSql = "select * from CDR where telefonoOrigen=" + numeroOrigenBuscado;
+		conectar();
 		try {
-			PreparedStatement st = connect.prepareStatement(consulSQL);
+			PreparedStatement st = conexion.prepareStatement(consultaSql);
 			result = st.executeQuery();
 			while(result.next()) {
 				
@@ -135,15 +163,16 @@ public class SQLiteCDRRepository implements ICDRRepository {
 				fecha = result.getString(4);
 				hora = result.getString(5);
 				tiempoDuracion = result.getInt(6);
+				costo = result.getDouble(7);
 				
-				RegistroCDR cdr = new RegistroCDR(telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion);
-				listaAuxiliar.add(cdr);
+				RegistroCDR cdr = new RegistroCDR(telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion, costo);
+				listaCDRsDeUnNumero.add(cdr);
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
-		close();
-		return listaAuxiliar;
+		cerrarConexion();
+		return listaCDRsDeUnNumero;
 	}
 
 }
