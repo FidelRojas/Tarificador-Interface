@@ -78,7 +78,7 @@ public class FileCDRRepository implements ICDRRepository {
 		return "telefonoOrigen, telefonoDestino, fecha, hora, tiempoDuracion, costo";
 	}
 	
-	public String obtenerTiempoActualEnString() {
+	public String obtenerFechaActualEnString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy,HHmmss");  
 	    Date date = new Date();
 	    String strDate = formatter.format(date);  
@@ -94,7 +94,7 @@ public class FileCDRRepository implements ICDRRepository {
 	@Override
 	public void guardarCDRsTarificadosHistorial(ArrayList<RegistroCDR> listaCDRs) {
 	    String ruta = "datas\\file\\Historial\\";
-	    String tituloTiempo = obtenerTiempoActualEnString();
+	    String tituloTiempo = obtenerFechaActualEnString();
 	    String url = ruta + tituloTiempo + ".txt";
 	    String cdrStr = "";
 	    
@@ -154,5 +154,17 @@ public class FileCDRRepository implements ICDRRepository {
 		cerrarConexion();
 		
 		return listaCDRsDeUnNumero;
+	}
+
+	@Override
+	public ArrayList<Historial> obtenerHistorialDeTarificaciones() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<RegistroCDR> obtenerCDRsTarificadasSegun(Historial historial) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
