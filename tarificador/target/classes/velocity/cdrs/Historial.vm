@@ -71,7 +71,7 @@
         <a href="/configurar">Configuracion</a>
         <a href="/cargarTXT">Cargar CDRs</a>
         <a href="/tarificar">Tarificacion</a>
-        <a class="active" href="/configurar">Historial</a>
+        <a class="active" href="/historial">Historial</a>
         <a href="/help" style="color: red;">Salir </a>
     </div>
 
@@ -82,10 +82,10 @@
                 <th>Fecha y Hora</th>
                 <th>Ver</th>
             </tr>
-            #foreach($h in $historial)
+            #foreach($h in $Historial)
             <tr>
-                <td>$h.setFechaHora()</td>
-                <td><a href="/historia/$h.getId()">Detalle</a></td>
+                <td>$h.getFechaHora()</td>
+                <td><a class="button button1" href="/historial/$h.getId()">Detalle</a></td>
             </tr>
             #end
         
