@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarificar</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: rgb(62, 114, 255);
+            color: white;
+        }
+
+
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            background-color: #4CAF50;
+        }
+
+        /* Green */
+        .button2 {
+            background-color: #008CBA;
+        }
+
+        /* Blue */
+    </style>
+</head>
+
+<body>
+
+    <div class="topnav">
+        <a href="/">Inicio</a>
+        <a href="/configurar">Configuracion</a>
+        <a href="/cargarTXT">Cargar CDRs</a>
+        <a href="/tarificar">Tarificacion</a>
+        <a class="active" href="/configurar">Historial</a>
+        <a href="/help" style="color: red;">Salir </a>
+    </div>
+
+    <div style="padding:16px">
+        <h2>Historial de tarificaciones</h2>
+        <table style="border: 1px solid black">
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Ver</th>
+            </tr>
+            #foreach($h in $historial)
+            <tr>
+                <td>$h.setFechaHora()</td>
+                <td><a href="/historia/$h.getId()">Detalle</a></td>
+            </tr>
+            #end
+        
+
+    </div>
+
+</body>

@@ -80,13 +80,15 @@
         <a href="/">Inicio</a>
         <a href="/configurar">Configuracion</a>
         <a href="/cargarTXT">Cargar CDRs</a>
-        <a class="active" href="/tarificar">Tarificacion</a>
-        <a href="/historial">Historial</a>
+        <a href="/tarificar">Tarificacion</a>
+        <a class="active" href="/historial">Historial</a>
         <a href="/help" style="color: red;">Salir </a>
     </div>
 
     <div style="padding:16px">
-     	<h2>Lista de CDR sin Tarificar</h2>
+        <a class="button button2" href="/historial">Atras</a>
+
+     	<h2>Lista de CDRs</h2>
 		<table style="border: 1px solid black">
       	<tr>
         <th>Telefono Origen</th>
@@ -104,45 +106,5 @@
             <td>$registro.getTiempoDuracionSegundos()</td>
       	</tr>
       	#end
-      	</table>
-        <form action="/tarificar" method="post">
-            <input  class="button button1" type="submit" name="Tatificar" value="Tatificar" />
-        </form>
-         <form action="/descarcarCarga" method="post">
-            <input  class="button button2" type="submit" name="DescartarCarga" value="Descartar Carga" />
-        </form>
-		
-		<hr>
-		<h2>Lista de CDR Tarificados</h2>
-		<table style="border: 1px solid black">
-      	<tr>
-        <th>Telefono Origen</th>
-        <th>Telefono Destino</th>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Duracion</th>
-        <th>Costo</th>
-      	</tr>
-      	#foreach($registro in $cdrsTarificados)
-      	<tr>
-            <td>$registro.getTelefonoOrigen()</td>
-            <td>$registro.getTelefonoDestino()</td>
-            <td>$registro.getFecha()</td>
-            <td>$registro.getHora()</td>
-            <td>$registro.getTiempoDuracionSegundos()</td>
-            <td>$registro.getCosto()</td>
-      	</tr>
-      	#end
-      	</table>
-          <div>
-            <form action="/guardar" method="post">
-                <input  class="button button1" type="submit" name="Guardar" value="Guardar" />
-            </form>
-            <form action="/descarcarTarificacion" method="post">
-                <input  class="button button2" type="submit" name="descarcarTarificacion" value="Descartar Tarificacion" />
-            </form>
-          </div>
-      	  
-	
 	</div>
 </body>

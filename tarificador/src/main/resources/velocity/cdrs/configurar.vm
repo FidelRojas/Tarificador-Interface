@@ -63,6 +63,7 @@
       <a class="active" href="/configurar">Configuracion</a>
       <a href="/cargarTXT">Cargar CDRs</a>
       <a href="/tarificar">Tarificacion</a>
+      <a href="/configurar">Historial</a>
       <a href="/help" style="color: red;">Salir </a>
   </div>
 

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.io.IOException;
 
 import tarificador.Central;
+import tarificador.Historial;
 import tarificador.RegistroCDR;
 
 public class Interface {
@@ -20,13 +21,19 @@ public class Interface {
 	private static String persistencia = "SQL";
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
-	
+
+	private static List<Historial> historial = new ArrayList<Historial>();
+
 	public static void run(Central _central) {
 		central=_central;
 		get("/", (request, response) -> homeHtml());
 		get("/tarificar", (request, response) -> tarificarHtml());
+		get("/historial", (request, response) -> historialHtml());
 		get("/configurar", (request, response) -> {
 			return configurarHtml(request.queryParams("percistencia"));
+		});
+		get("/historial/:id", (request, response) -> {
+		    return historialDetalleHtml(request.params(":name"));
 		});
 		
 		get("/cargarTXTpaht", (request, response) -> {
@@ -96,6 +103,32 @@ public class Interface {
 		model.put("cdrsTarificados", cdrsTarificados);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Tarificacion.vm"));
 	}
+	private static void setHistorial() {
+		Historial h =new Historial();
+		h.setFechaHora("11-06-2020 10:01:01");
+		h.setId(1);
+		historial.add(h);
+		h.setFechaHora("12-06-2020 05:01:01");
+		h.setId(2);
+		historial.add(h);
+		h.setFechaHora("12-06-2020 22:01:01");
+		h.setId(3);
+		historial.add(h);
+	}
+	private static String historialHtml() {
+		setHistorial();
+		Map<String, Object> model = new HashMap<>();
+
+		model.put("Historial",historial);
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial.vm"));
+	}
+	
+	private static String historialDetalleHtml(String id) {
+		//getCdrsPorIdHistorial(id);
+		Map<String, Object> model = new HashMap<>();
+		model.put("cdrs",cdrsSinTarificar);
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial-detalle.vm"));
+	}
 
 	private static String configurarHtml(String per) {
 		if(per != null) {
@@ -122,7 +155,6 @@ public class Interface {
 		}
 		return contentBuilder.toString();
 	}
-
 
 	private static List<RegistroCDR> getCdrs() {
 		List<RegistroCDR> cdrs = new ArrayList<RegistroCDR>();
