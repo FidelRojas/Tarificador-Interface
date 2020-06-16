@@ -26,17 +26,12 @@ class TarificadorTest {
 		testCDR.setFecha("2020");
 		testCDR.setHora("15");
 		testCDR.setTiempoDuracionSegundos(10);
-		
 		double resultado = 0.0;
 		Central central = new Central();
 		resultado = central.tarificarCDR(testCDR);
 		
 		Tarificador tarificador = new Tarificador();
-		tarificador.setRegistro(testCDR);
-		tarificador.calcularCostoLlamada();
-		
-
-		
+		tarificador.calcularCostoLlamada(testCDR);
 		assertEquals(0,resultado, "Esperamos que costo sea 0");
 	}
 	@Test
@@ -54,21 +49,15 @@ class TarificadorTest {
 		testCDR.setFecha("2020");
 		testCDR.setHora("15");
 		testCDR.setTiempoDuracionSegundos(90);
-
-		
-		
 		Tarificador tarificador = new Tarificador();
-		tarificador.setRegistro(testCDR);
-		tarificador.calcularCostoLlamada();
 		
-
-		assertEquals(1.5,tarificador.calcularCostoLlamada(), "Esperamos que costo sea 1.5");
+		tarificador.calcularCostoLlamada(testCDR);
+		assertEquals(1.5,tarificador.calcularCostoLlamada(testCDR), "Esperamos que costo sea 1.5");
 	}
 	
 	@Test
 	void testPrepago(){
 		Cliente nuevoCliente = new Cliente(); 
-		nuevoCliente.setNumero("77777777");
 		nuevoCliente.setPlan("PrePago");
 		ListaClientes LC= ListaClientes.getInstance();
 		LC.añadir(nuevoCliente);
@@ -81,9 +70,8 @@ class TarificadorTest {
 		testCDR.setTiempoDuracionSegundos(155);
 		
 		Tarificador tarificador = new Tarificador();
-		tarificador.setRegistro(testCDR);
-		tarificador.calcularCostoLlamada();
-		assertEquals(2.5833333333333335,tarificador.calcularCostoLlamada(), "Horario Normal, esperamos 2.58");
+		tarificador.calcularCostoLlamada(testCDR);
+		assertEquals(2.5833333333333335,tarificador.calcularCostoLlamada(testCDR), "Horario Normal, esperamos 2.58");
 
 	}
 	
@@ -103,10 +91,10 @@ class TarificadorTest {
 		testCDR.setTiempoDuracionSegundos(90);
 		
 		Tarificador tarificador = new Tarificador();
-		tarificador.setRegistro(testCDR);
-		tarificador.calcularCostoLlamada();
 		
-		assertEquals(1.5,tarificador.calcularCostoLlamada(), "Postpago, esperamos 1.5");
+		tarificador.calcularCostoLlamada(testCDR);
+		
+		assertEquals(1.5,tarificador.calcularCostoLlamada(testCDR), "Postpago, esperamos 1.5");
 
 
 	}

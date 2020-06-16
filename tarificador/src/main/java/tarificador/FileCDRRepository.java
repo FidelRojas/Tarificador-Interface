@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;  
 import java.util.Date;
 
-public class FileCDRRepository implements ICDRRepository {
+public class FileCDRRepository implements RepositoryBoundary {
 
 	private String url = "";
 	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();

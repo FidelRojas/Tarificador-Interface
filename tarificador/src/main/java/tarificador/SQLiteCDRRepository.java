@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.logging.*;
 
-public class SQLiteCDRRepository implements ICDRRepository {
+public class SQLiteCDRRepository implements RepositoryBoundary {
 
 	private String url = "";
 	private Connection conexion;
