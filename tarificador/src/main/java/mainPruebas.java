@@ -12,10 +12,12 @@ public class mainPruebas {
 		//pruebaMostrarCDRs();
 		//pruebaHistorialCDR();
 		//pruebaTenerCDRsProvenientesDeUnNumero();
-		pruebaGuardarCDRsSQL();
+		//pruebaGuardarCDRsSQL();
 		//pruebaGuardarHistorialSql();
 		//obtenerHistorialesDeTarificaciones();
 		//pruebaObtenerCDRdeUnHistorial();
+		//pruebaObtenerNombreDeFicheros();
+		pruebaObtenerCDRsTarificadasPorHistorial();
 	}
 	
 	public static void pruebaGuardarCDRsSQL() {
@@ -93,6 +95,28 @@ public class mainPruebas {
 		
 		Historial h = new Historial(1,"44665");
 		ArrayList<RegistroCDR> listCDR = c.obtenerCDRsTarificadasSegun(h);
+		for (RegistroCDR cdr : listCDR)
+		{
+			System.out.println("Origen: " + cdr.getTelefonoOrigen() + " Destino: " + cdr.getTelefonoDestino() + " Fecha: " + cdr.getFecha() + " Hora: " + cdr.getHora() + " Duracion: " + cdr.getTiempoDuracionSegundos() + " Costo: " + cdr.getCosto());
+		}
+	}
+	
+	public static void pruebaObtenerNombreDeFicheros() {
+		String url2 = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\CDR.txt";
+		FileCDRRepository c = new FileCDRRepository(url2);
+		ArrayList<Historial> historiales = c.obtenerHistorialDeTarificaciones();
+		for (Historial historial : historiales)
+		{
+			System.out.println("Id: " + historial.getId() + " Fecha Hora: " + historial.getFechaHora());
+		}
+	}
+	
+	public static void pruebaObtenerCDRsTarificadasPorHistorial() {
+		String url2 = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\CDR.txt";
+		FileCDRRepository c = new FileCDRRepository(url2);
+		Historial h = new Historial(1,"14/06/2020 20:59");
+		ArrayList<RegistroCDR> listCDR = c.obtenerCDRsTarificadasSegun(h);
+		
 		for (RegistroCDR cdr : listCDR)
 		{
 			System.out.println("Origen: " + cdr.getTelefonoOrigen() + " Destino: " + cdr.getTelefonoDestino() + " Fecha: " + cdr.getFecha() + " Hora: " + cdr.getHora() + " Duracion: " + cdr.getTiempoDuracionSegundos() + " Costo: " + cdr.getCosto());
