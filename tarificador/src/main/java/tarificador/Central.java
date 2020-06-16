@@ -62,41 +62,13 @@ public class Central {
 	}
 	
 	public void guardarResultados() {
+		ICDRRepository repositorio = null;
 		if(configuraciones.get("persistencia").equals("TXT")) {
-			FileCDRRepository FileRepo = new FileCDRRepository();
-			FileRepo.guardarCDRsTarificadosHistorial(CDRsCargados);
+			repositorio = new FileCDRRepository();
 		}
-		else if(configuraciones.get("persistencia")=="SQL") {
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			
-			System.out.println("TODO: Guardar en Base de Datos");System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			System.out.println("TODO: Guardar en Base de Datos");
-			
-			
+		else if(configuraciones.get("persistencia").equals("SQL")) {
+			repositorio = new SQLiteCDRRepository();
 		}
+		repositorio.guardarCDRsTarificadosHistorial(CDRsCargados);
 	}
-	
-	
-
-	
 }
