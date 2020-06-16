@@ -9,7 +9,7 @@ import tarificador.SQLiteCDRRepository;
 
 public class mainPruebas {
 	public static void main(String[] args) {
-		//pruebaMostrarCDRs();
+		pruebaMostrarCDRs();
 		//pruebaHistorialCDR();
 		//pruebaTenerCDRsProvenientesDeUnNumero();
 		//pruebaGuardarCDRsSQL();
@@ -17,7 +17,7 @@ public class mainPruebas {
 		//obtenerHistorialesDeTarificaciones();
 		//pruebaObtenerCDRdeUnHistorial();
 		//pruebaObtenerNombreDeFicheros();
-		pruebaObtenerCDRsTarificadasPorHistorial();
+		//pruebaObtenerCDRsTarificadasPorHistorial();
 	}
 	
 	public static void pruebaGuardarCDRsSQL() {
@@ -59,11 +59,11 @@ public class mainPruebas {
 	}
 	
 	public static void pruebaMostrarCDRs() {
-		String url="E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\sql\\dataBaseCentral.db";
-		RepositoryBoundary c = new SQLiteCDRRepository(url);
+		//String url="E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\sql\\dataBaseCentral.db";
+		//RepositoryBoundary c = new SQLiteCDRRepository(url);
 		
-		//String url2 = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\CDR.txt";
-		//ICDRRepository c = new FileCDRRepository(url2);
+		String url2 = "E:\\U.C.B\\My Workspace\\Proyecto Arqui2\\Tarificador-Interface\\tarificador\\datas\\file\\CDR.txt";
+		RepositoryBoundary c = new FileCDRRepository(url2);
 		
 		ArrayList<RegistroCDR> listCDR = c.getList();
 		for (RegistroCDR cdr : listCDR)
