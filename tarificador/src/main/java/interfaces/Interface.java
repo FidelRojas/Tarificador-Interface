@@ -22,7 +22,9 @@ public class Interface {
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
 
-	private static List<Historial> historial = new ArrayList<Historial>();
+	private static List<RegistroCDR> cdrsHistorial = new ArrayList<RegistroCDR>();
+
+	private static List<Historial> historiales = new ArrayList<Historial>();
 
 	public static void run(Central _central) {
 		central=_central;
@@ -33,7 +35,8 @@ public class Interface {
 			return configurarHtml(request.queryParams("percistencia"));
 		});
 		get("/historial/:id", (request, response) -> {
-		    return historialDetalleHtml(request.params(":name"));
+			String res =request.params(":id");
+		    return historialDetalleHtml(Integer.parseInt(res));
 		});
 		
 		get("/cargarTXTpaht", (request, response) -> {
@@ -77,10 +80,12 @@ public class Interface {
 	}
 	private static String descartarCdrsSinTarificar() {
 		cdrsSinTarificar= new ArrayList<RegistroCDR>();
+		central.borrarCDRsCargados();
 		return "";
 	}
 	private static String descartarcdrsTarificados() {
 		cdrsTarificados= new ArrayList<RegistroCDR>();
+		central.borrarCDRsCargados();
 		return "";
 	}
 	private static String homeHtml() {
@@ -103,30 +108,23 @@ public class Interface {
 		model.put("cdrsTarificados", cdrsTarificados);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Tarificacion.vm"));
 	}
-	private static void setHistorial() {
-		Historial h =new Historial();
-		h.setFechaHora("11-06-2020 10:01:01");
-		h.setId(1);
-		historial.add(h);
-		h.setFechaHora("12-06-2020 05:01:01");
-		h.setId(2);
-		historial.add(h);
-		h.setFechaHora("12-06-2020 22:01:01");
-		h.setId(3);
-		historial.add(h);
-	}
-	private static String historialHtml() {
-		setHistorial();
-		Map<String, Object> model = new HashMap<>();
 
-		model.put("historial",historial);
+	private static String historialHtml() {
+		Map<String, Object> model = new HashMap<>();
+		historiales=central.getHistorial();
+		model.put("historial",historiales);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial.vm"));
 	}
 	
-	private static String historialDetalleHtml(String id) {
-		//getCdrsPorIdHistorial(id);
+	private static String historialDetalleHtml(int id) {
+		
+		for (Historial historial : historiales) {
+			if(historial.getId() == id) {
+				cdrsHistorial=central.obtenerCDRsDeUnHistorial(historial);
+			}
+		}
 		Map<String, Object> model = new HashMap<>();
-		model.put("cdrs",cdrsSinTarificar);
+		model.put("cdrs",cdrsHistorial);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial-detalle.vm"));
 	}
 
@@ -155,22 +153,5 @@ public class Interface {
 		}
 		return contentBuilder.toString();
 	}
-
-	private static List<RegistroCDR> getCdrs() {
-		List<RegistroCDR> cdrs = new ArrayList<RegistroCDR>();
-		RegistroCDR test = new RegistroCDR();
-		test.setTelefonoOrigen("77777777");
-		test.setTelefonoDestino("76666666");
-		test.setFecha("22022020");
-		test.setHora("2200");
-		test.setTiempoDuracionSegundos(10);
-		test.setCosto(11.5);
-
-		cdrs.add(test);
-		cdrs.add(test);
-		cdrs.add(test);
-		return cdrs;
-	}
-
 	
 }

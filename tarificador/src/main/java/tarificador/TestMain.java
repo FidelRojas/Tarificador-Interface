@@ -37,8 +37,7 @@ public class TestMain {
 		testCDR.setTiempoDuracionSegundos(155);
 		
 		Tarificador tarificador = new Tarificador();
-		tarificador.setRegistro(testCDR);
-		tarificador.calcularCostoLlamada();
+		tarificador.calcularCostoLlamada(testCDR);
 		
 		Central central = new Central();
 		double resultado = central.tarificarCDR(testCDR);
