@@ -53,6 +53,19 @@ public class FileCDRRepository implements RepositoryBoundary {
 		fecha = fecha.replace('/', '-').replace(':', '.').replace(' ', ',');
 		return fecha + ".txt";
 	}
+	public int convertirDuracionEnFormatoCorrecto(String duracion) {
+		
+		String[] partes = duracion.split(":");
+		int duracionFinal=0;
+		if(partes.length==3) {
+			duracionFinal=Integer.parseInt(partes[0])*3600+Integer.parseInt(partes[1])*60+Integer.parseInt(partes[2]);
+		}else if(partes.length==2) {
+			duracionFinal=Integer.parseInt(partes[0])*60+Integer.parseInt(partes[1]);
+		}else {
+			duracionFinal=Integer.parseInt(duracion);
+		}
+		return duracionFinal;
+	}
 	
 	public void cargarCDRs() {
 		String str = "";
@@ -68,7 +81,7 @@ public class FileCDRRepository implements RepositoryBoundary {
 		try {
 			while ((str = in.readLine()) != null) {
 				String[] data = str.split(", ");
-				duracion = Integer.parseInt(data[5]);
+				duracion = convertirDuracionEnFormatoCorrecto(data[5]);
 				RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
 				listaCDRs.add(cdr);
 			}
