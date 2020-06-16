@@ -45,7 +45,7 @@ public class TestMain {
 		System.out.println(resultado);;
 		
 		
-		central.cambiarConfiguracion("persistencia", "baseDeDatos");
+		central.cambiarConfiguracion("persistencia", "guardarEnTxt");
 		central.cargarCDRsDesdeTexto("D:\\CDRs.txt");
 		central.debugMostrar();
 		central.tarificarCDRsCargados();
