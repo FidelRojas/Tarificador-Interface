@@ -65,10 +65,10 @@ public class Central {
 		ArrayList<RegistroCDR> CDRsDeUnCliente = repositorio.obtenerCDRsTarificadosDe(numeroBuscado);
 		double suma = facturador.calcularFactura(numeroBuscado, mes, repositorio);
 		JSONObject respuestaJSON = new JSONObject() ;
-		String nombre = LC.buscar(numeroBuscado).getNombre();
-		if(nombre != null) {
-			respuestaJSON.put("nombre", nombre);
-		}
+		//String nombre = LC.buscar(numeroBuscado).getNombre();
+		//if(nombre != null) {
+		//	respuestaJSON.put("nombre", nombre);
+		//}
 		
 		respuestaJSON.put("numero", numeroBuscado);
 		respuestaJSON.put("suma", suma);
