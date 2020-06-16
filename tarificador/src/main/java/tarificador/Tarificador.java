@@ -16,15 +16,18 @@ public class Tarificador implements TarificadorBoundary {
 			CalculadorDeCosto calculador = new CalculadorPlanWow();
 			return calculador;
 		}
-		if (plan == "PostPago") {
+		else if (plan == "PostPago") {
 			CalculadorDeCosto calculador = new CalculadorPlanPostpago();
 			return calculador;
 		}
-		if (plan == "PrePago") {
+		else if (plan == "PrePago") {
 			CalculadorDeCosto calculador = new CalculadorPlanPrepago();
 			return calculador;
 		}
-		return null;
+		else {
+			CalculadorDeCosto calculador = new CalculadorPlanPrepago();
+			return calculador;
+		}
 	}
 	
 	
