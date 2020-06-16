@@ -15,6 +15,10 @@ public class SQLiteCDRRepository implements ICDRRepository {
 	private Connection conexion;
 	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();
 	
+	public SQLiteCDRRepository() {
+		this.url="datas\\sql\\dataBaseCentral.db";
+	}
+	
 	public SQLiteCDRRepository(String url) {
 		this.url=url;
 	}
