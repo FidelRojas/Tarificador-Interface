@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;  
 import java.util.Date;
 
-public class FileCDRRepository implements ICDRRepository {
+public class FileCDRRepository implements RepositoryBoundary {
 
 	private String url = "";
 	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();
@@ -39,6 +39,19 @@ public class FileCDRRepository implements ICDRRepository {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String convertirNombreEnFormatoFecha(String fecha) {
+		String strFecha = fecha.substring(0, fecha.lastIndexOf("."));
+		String[] partes = strFecha.split(",");
+		partes[0] = partes[0].replace('-','/');
+		partes[1] = partes[1].replace('.',':');
+		return partes[0] + " " + partes[1];
+	}
+	
+	public String convertirFechaEnFormatoTxt(String fecha) {
+		fecha = fecha.replace('/', '-').replace(':', '.').replace(' ', ',');
+		return fecha + ".txt";
 	}
 	
 	public void cargarCDRs() {
@@ -79,7 +92,7 @@ public class FileCDRRepository implements ICDRRepository {
 	}
 	
 	public String obtenerFechaActualEnString() {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy,HHmmss");  
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy,HH.mm");  
 	    Date date = new Date();
 	    String strDate = formatter.format(date);  
 		return strDate;
@@ -159,12 +172,58 @@ public class FileCDRRepository implements ICDRRepository {
 	@Override
 	public ArrayList<Historial> obtenerHistorialDeTarificaciones() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		File folder = new File("datas\\file\\Historial");
+		File[] listOfFiles = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+		ArrayList<Historial> historiles = new ArrayList<Historial>();
+		String fecha = "";
+		
+		for (int i = 0; i < listOfFiles.length; i++) {
+			fecha = convertirNombreEnFormatoFecha(listOfFiles[i].getName());
+			Historial historial = new Historial(i+1, fecha);
+			historiles.add(historial);
+		}	
+		return historiles;
 	}
 
 	@Override
 	public ArrayList<RegistroCDR> obtenerCDRsTarificadasSegun(Historial historial) {
 		// TODO Auto-generated method stub
-		return null;
+		String nombreFichero = convertirFechaEnFormatoTxt(historial.getFechaHora());
+		System.out.println(nombreFichero);
+		ArrayList<RegistroCDR> lista = new ArrayList<RegistroCDR>();
+		
+		String str = "";
+		int duracion;
+		double costo;
+		
+		
+		try {
+			in = new BufferedReader(new FileReader("datas\\file\\Historial\\" + nombreFichero));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			str = in.readLine(); // Saltar Cabecera
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		try {
+			while ((str = in.readLine()) != null) {
+				String[] data = str.split(", ");
+				duracion = Integer.parseInt(data[4]);
+				costo = Double.parseDouble(data[5]);
+				RegistroCDR cdr = new RegistroCDR(data[0], data[1], data[2], data[3], duracion, costo);
+				lista.add(cdr);
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		cerrarConexion();
+		
+		return lista;
 	}
 }

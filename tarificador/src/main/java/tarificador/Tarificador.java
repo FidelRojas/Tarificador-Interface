@@ -1,22 +1,17 @@
 package tarificador;
 
 public class Tarificador implements TarificadorBoundary {
-	private RegistroCDR registro;
 	
-	public double calcularCostoLlamada() {
-		CalculadorDeCosto calculador = this.crearCalculador();
+	public double calcularCostoLlamada(RegistroCDR registro) {
+		CalculadorDeCosto calculador = this.crearCalculador(registro);
 		double res = calculador.calcularCosto(registro);
 		registro.setCosto(res);
 		return res;
 	} 
-	
-	public void setRegistro(RegistroCDR registro) {
-		this.registro = registro;
-	}
-	
-	public CalculadorDeCosto crearCalculador() {
+
+	public CalculadorDeCosto crearCalculador(RegistroCDR registro) {
 		ListaClientes LC= ListaClientes.getInstance();
-		String plan = LC.getPlanDeCliente(this.registro.getTelefonoOrigen());
+		String plan = LC.getPlanDeCliente(registro.getTelefonoOrigen());
 		if (plan == "Wow") {
 			CalculadorDeCosto calculador = new CalculadorPlanWow();
 			return calculador;

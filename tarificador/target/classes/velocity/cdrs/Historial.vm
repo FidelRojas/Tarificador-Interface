@@ -82,10 +82,10 @@
                 <th>Fecha y Hora</th>
                 <th>Ver</th>
             </tr>
-            #foreach($h in $Historial)
+            #foreach($h in $historial)
             <tr>
                 <td>$h.getFechaHora()</td>
-                <td><a class="button button1" href="/historial/$h.getId()">Detalle</a></td>
+                <td><a href="/historial/$h.getId()">Detalle</a></td>
             </tr>
             #end
         

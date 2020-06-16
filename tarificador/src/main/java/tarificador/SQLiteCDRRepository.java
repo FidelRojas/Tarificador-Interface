@@ -9,11 +9,15 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.logging.*;
 
-public class SQLiteCDRRepository implements ICDRRepository {
+public class SQLiteCDRRepository implements RepositoryBoundary {
 
 	private String url = "";
 	private Connection conexion;
 	private ArrayList<RegistroCDR> listaCDRs = new ArrayList<RegistroCDR>();
+	
+	public SQLiteCDRRepository() {
+		this.url="datas\\sql\\dataBaseCentral.db";
+	}
 	
 	public SQLiteCDRRepository(String url) {
 		this.url=url;
