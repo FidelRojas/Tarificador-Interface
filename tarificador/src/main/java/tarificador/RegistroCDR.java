@@ -1,5 +1,7 @@
 package tarificador;
 
+import org.json.simple.JSONObject;
+
 public class RegistroCDR {
 	private String telefonoOrigen;
 	private String telefonoDestino;
@@ -67,5 +69,25 @@ public class RegistroCDR {
 	public String retornarCadenaCDR(String separador){
 		String cadena= telefonoOrigen+separador+telefonoDestino+separador+fecha +separador+hora+separador+tiempoDuracionSegundo+separador+costo;
 		return cadena;
+	}
+	public String toJSONString() {
+		JSONObject respuestaJSON = new JSONObject();
+		respuestaJSON.put("telefonoOrigen", telefonoOrigen);
+		respuestaJSON.put("telefonoDestino", telefonoDestino);
+		respuestaJSON.put("fecha", fecha);
+		respuestaJSON.put("hora", hora);
+		respuestaJSON.put("tiempoDuracionSegundo", tiempoDuracionSegundo);
+		respuestaJSON.put("costo", costo);
+		return respuestaJSON.toString();
+	}
+	public JSONObject toJSONObject() {
+		JSONObject respuestaJSON = new JSONObject();
+		respuestaJSON.put("telefonoOrigen", telefonoOrigen);
+		respuestaJSON.put("telefonoDestino", telefonoDestino);
+		respuestaJSON.put("fecha", fecha);
+		respuestaJSON.put("hora", hora);
+		respuestaJSON.put("tiempoDuracionSegundo", tiempoDuracionSegundo);
+		respuestaJSON.put("costo", costo);
+		return respuestaJSON;
 	}
 }

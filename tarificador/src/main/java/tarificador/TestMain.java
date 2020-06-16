@@ -1,5 +1,13 @@
 package tarificador;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class TestMain {
 	public static void main(String[] args) {
@@ -43,11 +51,21 @@ public class TestMain {
 		double resultado = central.tarificarCDR(testCDR);
 		System.out.println(resultado);;
 		
+		JSONParser parser = new JSONParser();
 		
-		central.cambiarConfiguracion("persistencia", "guardarEnTxt");
-		central.cargarCDRsDesdeTexto("D:\\CDRs.txt");
 		central.debugMostrar();
-		central.tarificarCDRsCargados();
-		central.debugMostrar();
+		String respuestaJSON = central.facturarCliente("70442222", 5);
+		System.out.println(respuestaJSON);
+	    JSONParser jsonParser = new JSONParser();
+	    try {
+	    	JSONObject json = (JSONObject) parser.parse(respuestaJSON);
+			System.out.println(json.get("lista"));
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 	}
 }

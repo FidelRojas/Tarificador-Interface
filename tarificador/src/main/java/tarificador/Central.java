@@ -3,18 +3,24 @@ package tarificador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class Central {
 	HashMap<String, String> configuraciones;
 	private TarificadorBoundary tarificador;
 	private ArrayList<RegistroCDR> CDRsCargados;
 	private RepositoryBoundary repositorio =null;
+	private FacturadorBoundary facturador = null;
+	private ListaClientes LC;
 	
 	public Central() {
 		tarificador = new Tarificador();
-		// ListaClientes LC= ListaClientes.getInstance();
+		LC= ListaClientes.getInstance();
 		configuraciones = new HashMap<String, String>();
 		configuraciones.put("persistencia", "SQL");
 		this.repositorio = new SQLiteCDRRepository();
+		facturador = new Facturador();
 	}
 	public void cargarCDRsDesdeTexto(String path) {
 		FileCDRRepository FileRepo = new FileCDRRepository(path);
@@ -23,6 +29,7 @@ public class Central {
 	}
 	
 	public void debugMostrar() {
+		CDRsCargados = this.repositorio.getList();
 		FileCDRRepository FileRepo = new FileCDRRepository();
 		for(RegistroCDR registro : CDRsCargados) {
 			System.out.println(FileRepo.transformarCDRaString(registro));
@@ -54,8 +61,28 @@ public class Central {
 		this.CDRsCargados.clear();
 	}
 	
-	public double facturarCliente(Cliente cliente) {
-		return 0.0;
+	public String facturarCliente(String numeroBuscado, int mes) {
+		ArrayList<RegistroCDR> CDRsDeUnCliente = repositorio.obtenerCDRsTarificadosDe(numeroBuscado);
+		double suma = facturador.calcularFactura(numeroBuscado, mes, repositorio);
+		JSONObject respuestaJSON = new JSONObject() ;
+		String nombre = LC.buscar(numeroBuscado).getNombre();
+		if(nombre != null) {
+			respuestaJSON.put("nombre", nombre);
+		}
+		
+		respuestaJSON.put("numero", numeroBuscado);
+		respuestaJSON.put("suma", suma);
+		JSONArray array = new JSONArray();		
+		for(RegistroCDR CDR:CDRsDeUnCliente) {
+			String fecha = CDR.getFecha();
+			String[] partes = fecha.split("/");
+			int mesCDR =Integer.parseInt(partes[1]);
+			if(mesCDR == mes) {
+				array.add(CDR.toJSONString());
+			}
+		}
+		respuestaJSON.put("lista", array);
+		return respuestaJSON.toString();
 	}
 	
 	public void cambiarConfiguracion(String key, String value) {
