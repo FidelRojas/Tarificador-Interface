@@ -2,11 +2,8 @@ package tarificador;
 
 import java.util.ArrayList;
 
-import org.apache.commons.collections.Factory;
+public class Facturador implements FacturadorBoundary {
 
-public class Facturador implements FacturadorBoundary, Factory {
-
-	@Override
 	public Object create() {
 		// TODO Auto-generated method stub
 		return null;
