@@ -25,7 +25,6 @@ public class Central {
 	public void cargarCDRsDesdeTexto(String path) {
 		FileCDRRepository FileRepo = new FileCDRRepository(path);
 		CDRsCargados = FileRepo.getList();
-		
 	}
 	
 	public void debugMostrar() {
