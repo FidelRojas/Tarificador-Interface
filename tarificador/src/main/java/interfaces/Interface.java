@@ -119,7 +119,7 @@ public class Interface {
 		setHistorial();
 		Map<String, Object> model = new HashMap<>();
 
-		model.put("Historial",historial);
+		model.put("historial",historial);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial.vm"));
 	}
 	

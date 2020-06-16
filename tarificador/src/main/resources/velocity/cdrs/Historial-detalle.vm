@@ -38,29 +38,39 @@
             color: white;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-        .button {
-            border: none;
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: rgb(62, 114, 255);
             color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
         }
-
-        .button1 {
-            background-color: #4CAF50;
-        }
-
-        /* Green */
-        .button2 {
-            background-color: #008CBA;
-        }
-
-        /* Blue */
+        .button {
+		  border: none;
+		  color: white;
+		  padding: 15px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		}
+		
+		.button1 {background-color: #4CAF50;} /* Green */
+		.button2 {background-color: #008CBA;} /* Blue */
     </style>
 </head>
 
@@ -76,20 +86,25 @@
     </div>
 
     <div style="padding:16px">
-        <h2>Historial de tarificaciones</h2>
-        <table style="border: 1px solid black">
-            <tr>
-                <th>Fecha y Hora</th>
-                <th>Ver</th>
-            </tr>
-            #foreach($h in $historial)
-            <tr>
-                <td>$h.setFechaHora()</td>
-                <td><a href="/historia/$h.getId()">Detalle</a></td>
-            </tr>
-            #end
-        
+        <a class="button button2" href="/historial">Atras</a>
 
-    </div>
-
+     	<h2>Lista de CDRs</h2>
+		<table style="border: 1px solid black">
+      	<tr>
+        <th>Telefono Origen</th>
+        <th>Telefono Destino</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Duracion</th>
+      	</tr>
+      	#foreach($registro in $cdrs)
+      	<tr>
+            <td>$registro.getTelefonoOrigen()</td>
+            <td>$registro.getTelefonoDestino()</td>
+            <td>$registro.getFecha()</td>
+            <td>$registro.getHora()</td>
+            <td>$registro.getTiempoDuracionSegundos()</td>
+      	</tr>
+      	#end
+	</div>
 </body>
