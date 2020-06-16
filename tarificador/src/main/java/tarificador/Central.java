@@ -7,6 +7,8 @@ public class Central {
 	HashMap<String, String> configuraciones;
 	private TarificadorBoundary tarificador;
 	private ArrayList<RegistroCDR> CDRsCargados;
+	private ICDRRepository repositorio = new SQLiteCDRRepository();
+	
 	public Central() {
 		tarificador = new Tarificador();
 		// ListaClientes LC= ListaClientes.getInstance();
@@ -62,7 +64,6 @@ public class Central {
 	}
 	
 	public void guardarResultados() {
-		ICDRRepository repositorio = null;
 		if(configuraciones.get("persistencia").equals("TXT")) {
 			repositorio = new FileCDRRepository();
 		}
