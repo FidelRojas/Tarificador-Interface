@@ -1,8 +1,9 @@
 import interfaces.Interface;
+import tarificador.Central;
 
 public class Main {
 	public static void main(String[] args) {
-		Interface.run();
-		
+		Central central = new Central();
+		Interface.run(central);
 	}
 }

@@ -3,5 +3,8 @@ import java.util.ArrayList;
 
 public interface ICDRRepository {
 	public ArrayList<RegistroCDR> getList();
-	public void saveCDRsHistorial(ArrayList<RegistroCDR> list);
+	public void guardarCDRsTarificadosHistorial(ArrayList<RegistroCDR> listaCDRs);
+	public ArrayList<RegistroCDR> obtenerCDRsTarificadosDe(String numeroOrigenBuscado);
+	public ArrayList<RegistroCDR> obtenerCDRsTarificadasSegun(Historial historial);
+	public ArrayList<Historial> obtenerHistorialDeTarificaciones();
 }

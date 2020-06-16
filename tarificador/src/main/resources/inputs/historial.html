@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Tarificar</title>
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,25 +38,29 @@
             color: white;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
 
-        th,
-        td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2
-        }
-
-        th {
-            background-color: rgb(62, 114, 255);
+        .button {
+            border: none;
             color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
         }
+
+        .button1 {
+            background-color: #4CAF50;
+        }
+
+        /* Green */
+        .button2 {
+            background-color: #008CBA;
+        }
+
+        /* Blue */
     </style>
 </head>
 
@@ -66,9 +70,26 @@
         <a href="/">Inicio</a>
         <a href="/configurar">Configuracion</a>
         <a href="/cargarTXT">Cargar CDRs</a>
-        <a class="active" href="/tarificar">Tarificacion</a>
-        <a href="/historial">Historial</a>
+        <a href="/tarificar">Tarificacion</a>
+        <a class="active" href="/historial">Historial</a>
         <a href="/help" style="color: red;">Salir </a>
     </div>
 
-    <div style="padding-left:16px">
+    <div style="padding:16px">
+        <h2>Historial de tarificaciones</h2>
+        <table style="border: 1px solid black">
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Ver</th>
+            </tr>
+            #foreach($h in $historial)
+            <tr>
+                <td>$h.setFechaHora()</td>
+                <td><a href="/historia/$h.getId()">Detalle</a></td>
+            </tr>
+            #end
+        
+
+    </div>
+
+</body>

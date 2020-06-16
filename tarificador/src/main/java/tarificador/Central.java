@@ -11,7 +11,7 @@ public class Central {
 		tarificador = new Tarificador();
 		// ListaClientes LC= ListaClientes.getInstance();
 		configuraciones = new HashMap<String, String>();
-		configuraciones.put("persistencia", "guardarEnTxt");
+		configuraciones.put("persistencia", "SQL");
 	}
 	public void cargarCDRsDesdeTexto(String path) {
 		FileCDRRepository FileRepo = new FileCDRRepository(path);
@@ -22,7 +22,7 @@ public class Central {
 	public void debugMostrar() {
 		FileCDRRepository FileRepo = new FileCDRRepository();
 		for(RegistroCDR registro : CDRsCargados) {
-			System.out.println(FileRepo.tranformCDRtoString(registro));
+			System.out.println(FileRepo.transformarCDRaString(registro));
 		}
 	}
 	
@@ -46,6 +46,10 @@ public class Central {
 		return CDRsCargados;
 	}
 	
+	public ArrayList<RegistroCDR> getCdrsCargados() {
+		return CDRsCargados;
+	}
+	
 	public double facturarCliente(Cliente cliente) {
 		return 0.0;
 	}
@@ -58,14 +62,40 @@ public class Central {
 	}
 	
 	public void guardarResultados() {
-		if(configuraciones.get("persistencia")== "guardarEnTxt") {
+		if(configuraciones.get("persistencia").equals("TXT")) {
 			FileCDRRepository FileRepo = new FileCDRRepository();
-			FileRepo.saveCDRsHistorial(CDRsCargados);
+			FileRepo.guardarCDRsTarificadosHistorial(CDRsCargados);
 		}
-		else if(configuraciones.get("persistencia")=="guardarEnBaseDatos") {
+		else if(configuraciones.get("persistencia")=="SQL") {
 			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			
+			System.out.println("TODO: Guardar en Base de Datos");System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			System.out.println("TODO: Guardar en Base de Datos");
+			
+			
 		}
 	}
+	
 	
 
 	

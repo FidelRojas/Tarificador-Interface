@@ -19,6 +19,15 @@ public class RegistroCDR {
 		this.tiempoDuracionSegundo=tiempoDuracionSegundo;
 	}
 	
+	public RegistroCDR (String telefonoOrigen, String telefonoDestino, String fecha, String hora, int tiempoDuracionSegundo, double costo) {
+		this.telefonoOrigen=telefonoOrigen;
+		this.telefonoDestino=telefonoDestino;
+		this.fecha=fecha;
+		this.hora=hora;
+		this.tiempoDuracionSegundo=tiempoDuracionSegundo;
+		this.costo=costo;
+	}
+	
 	public String getTelefonoOrigen() {
 		return telefonoOrigen;
 	}
