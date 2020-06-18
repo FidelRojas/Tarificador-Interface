@@ -23,11 +23,9 @@ public class Interface {
 	private static String persistencia = "SQL";
 	private static List<RegistroCDR> cdrsSinTarificar = new ArrayList<RegistroCDR>();
 	private static List<RegistroCDR> cdrsTarificados = new ArrayList<RegistroCDR>();
-
 	private static List<RegistroCDR> cdrsHistorial = new ArrayList<RegistroCDR>();
-
 	private static List<Historial> historiales = new ArrayList<Historial>();
-
+	
 	public static void run(Central _central) {
 		central=_central;
 		get("/", (request, response) -> homeHtml());
@@ -42,7 +40,9 @@ public class Interface {
 		});
 		
 		get("/cargarTXTpaht", (request, response) -> {
-			String res = cargar_CDRSHtml(request.queryParams("ruta"));
+			String path="";
+			path=request.queryParams("ruta");
+			String res = cargar_CDRSHtml(path);
 			response.redirect("/tarificar");
 			return res;
 		});
@@ -120,7 +120,6 @@ public class Interface {
 
 	private static String tarificarHtml() {
 		Map<String, Object> model = new HashMap<>();
-
 		model.put("cdrs",cdrsSinTarificar);
 		model.put("cdrsTarificados", cdrsTarificados);
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Tarificacion.vm"));
