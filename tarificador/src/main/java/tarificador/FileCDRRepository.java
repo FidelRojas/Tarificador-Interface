@@ -81,9 +81,12 @@ public class FileCDRRepository implements RepositoryBoundary {
 		try {
 			while ((str = in.readLine()) != null) {
 				String[] data = str.split(", ");
-				duracion = convertirDuracionEnFormatoCorrecto(data[5]);
-				RegistroCDR cdr = new RegistroCDR(data[1], data[2], data[3], data[4], duracion);
-				listaCDRs.add(cdr);
+				if(data.length==5)
+				{
+					duracion = convertirDuracionEnFormatoCorrecto(data[4]);
+					RegistroCDR cdr = new RegistroCDR(data[0], data[1], data[2], data[3], duracion);
+					listaCDRs.add(cdr);
+				}
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
