@@ -80,14 +80,5 @@ public class RegistroCDR {
 		respuestaJSON.put("costo", costo);
 		return respuestaJSON.toString();
 	}
-	public JSONObject toJSONObject() {
-		JSONObject respuestaJSON = new JSONObject();
-		respuestaJSON.put("telefonoOrigen", telefonoOrigen);
-		respuestaJSON.put("telefonoDestino", telefonoDestino);
-		respuestaJSON.put("fecha", fecha);
-		respuestaJSON.put("hora", hora);
-		respuestaJSON.put("tiempoDuracionSegundo", tiempoDuracionSegundo);
-		respuestaJSON.put("costo", costo);
-		return respuestaJSON;
-	}
+
 }
