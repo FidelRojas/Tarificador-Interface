@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import controllers.ControladorCargarCDRs;
+
 public class Central {
 	HashMap<String, String> configuraciones;
 	private TarificadorBoundary tarificador;
@@ -13,6 +15,7 @@ public class Central {
 	private RepositoryBoundary repositorio =null;
 	private FacturadorBoundary facturador = null;
 	private ListaClientes LC;
+	private ControladorCargarCDRs controladorCargarCDRs = null;
 	
 	public Central() {
 		tarificador = new Tarificador();
@@ -22,9 +25,21 @@ public class Central {
 		this.repositorio = new SQLiteCDRRepository();
 		facturador = new Facturador();
 	}
+	
+	public void setControladorCargarCDRs(ControladorCargarCDRs controlador) {
+		controladorCargarCDRs = controlador;
+	}
+	
+	public void changeRepository(RepositoryBoundary repositorio) {
+	}
+	
+	
 	public void cargarCDRsDesdeTexto(String path) {
-		FileCDRRepository FileRepo = new FileCDRRepository(path);
-		CDRsCargados = FileRepo.getList();
+		/*
+		 * FileCDRRepository FileRepo = new FileCDRRepository(path); CDRsCargados =
+		 * FileRepo.getList();
+		 */
+		CDRsCargados = controladorCargarCDRs.cargarCDR(path);
 	}
 	
 	public void debugMostrar() {
@@ -108,9 +123,5 @@ public class Central {
 		repositorio.guardarCDRsTarificadosHistorial(CDRsCargados);
 	}
 	
-	public String facturarSegun(String numero, String Mes) {
-		String json = ""; 
-		
-		return json;
-	}
+
 }

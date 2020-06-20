@@ -23,6 +23,10 @@ public class SQLiteCDRRepository implements RepositoryBoundary {
 		this.url=url;
 	}
 	
+	public void setPath(String path) {
+		this.url = path;
+	}
+	
 	public void conectar() {
 		try {
 			conexion = DriverManager.getConnection("jdbc:sqlite:" + url);
