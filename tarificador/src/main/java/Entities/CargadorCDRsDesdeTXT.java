@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Boundaries.LectorDeCDRs;
+import boundaries.LectorDeCDRs;
 import tarificador.RegistroCDR;
 
 public class CargadorCDRsDesdeTXT implements LectorDeCDRs {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import boundaries.TarificarBoundary;
 import controllers.ControladorCargarCDRs;
 
 public class Central {
@@ -16,6 +17,7 @@ public class Central {
 	private FacturadorBoundary facturador = null;
 	private ListaClientes LC;
 	private ControladorCargarCDRs controladorCargarCDRs = null;
+	private TarificarBoundary ITarificador = null;
 	
 	public Central() {
 		tarificador = new Tarificador();
@@ -28,6 +30,9 @@ public class Central {
 	
 	public void setControladorCargarCDRs(ControladorCargarCDRs controlador) {
 		controladorCargarCDRs = controlador;
+	}
+	public void setTarificador(TarificarBoundary ITarificador) {
+		this.ITarificador = ITarificador;
 	}
 	
 	public void changeRepository(RepositoryBoundary repositorio) {
@@ -59,11 +64,12 @@ public class Central {
 			tarificador.calcularCostoLlamada(registro);
 		}
 	}
-	
-	public ArrayList<RegistroCDR> tarificarCDRsCargados() {
-		for(RegistroCDR registro : CDRsCargados) {
-			tarificador.calcularCostoLlamada(registro);
-		}
+	//Caso de Uso : Tarificar CDRs
+	public ArrayList<RegistroCDR> tarificarCDRsCargados() { 
+//		for(RegistroCDR registro : CDRsCargados) {
+//			tarificador.calcularCostoLlamada(registro);
+//		}
+		ITarificador.tarificarListaDeCDRs(this.CDRsCargados);
 		return CDRsCargados;
 	}
 	
@@ -74,7 +80,7 @@ public class Central {
 	public void borrarCDRsCargados() {
 		this.CDRsCargados.clear();
 	}
-	
+	//Caso de Uso: Facturar
 	public String facturarCliente(String numeroBuscado, int mes) {
 		ArrayList<RegistroCDR> CDRsDeUnCliente = repositorio.obtenerCDRsTarificadosDe(numeroBuscado);
 		double suma = facturador.calcularFactura(numeroBuscado, mes, repositorio);
@@ -98,7 +104,7 @@ public class Central {
 		respuestaJSON.put("lista", array);
 		return respuestaJSON.toString();
 	}
-	
+	//Caso de Uso: Cambiar configuracion de persistencia
 	public void cambiarConfiguracion(String key, String value) {
 		if(value.equals("TXT")) {
 			repositorio = new FileCDRRepository();
@@ -109,7 +115,7 @@ public class Central {
 			this.configuraciones.replace(key, value);
 		}
 	}
-	
+	//Caso de Uso: Recuperar Historial
 	public ArrayList<Historial> getHistorial(){
 		return repositorio.obtenerHistorialDeTarificaciones();
 	}
@@ -118,7 +124,7 @@ public class Central {
 	
 		return repositorio.obtenerCDRsTarificadasSegun(historial);
 	}
-	
+	//Caso de Uso: Guardar
 	public void guardarResultados() {
 		repositorio.guardarCDRsTarificadosHistorial(CDRsCargados);
 	}

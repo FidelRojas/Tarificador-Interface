@@ -1,7 +1,7 @@
 package controllers;
 import java.util.ArrayList;
 
-import Boundaries.LectorDeCDRs;
+import boundaries.LectorDeCDRs;
 import tarificador.RegistroCDR;
 
 public class ControladorCargarCDRs {
