@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import Entities.CargadorCDRsDesdeTXT;
+import boundaries.LectorDeCDRs;
+import boundaries.TarificarBoundary;
+import controllers.ControladorCargarCDRs;
+import interactors.TarificarInteractor;
+
 class CentralTest {
 
 	@Test
@@ -32,6 +38,10 @@ class CentralTest {
 	@Test
 	void testCargarCDRs() {
 		Central central = new Central();
+		LectorDeCDRs lectorCDRs = new CargadorCDRsDesdeTXT();
+		ControladorCargarCDRs controlador = new ControladorCargarCDRs();
+		controlador.setRepository(lectorCDRs);
+		central.setControladorCargarCDRs(controlador);
 		central.cargarCDRsDesdeTexto("datas\\file\\CDR.txt");
 		ArrayList<RegistroCDR> listaObtenida = central.getCdrsCargados();
 		assertEquals(5,listaObtenida.size(), "Esperamos la misma cantidad de cdr leidas tarificadas: 5");
@@ -40,6 +50,12 @@ class CentralTest {
 	@Test
 	void testTarificarCDRsCargados() {
 		Central central = new Central();
+		LectorDeCDRs lectorCDRs = new CargadorCDRsDesdeTXT();
+		ControladorCargarCDRs controlador = new ControladorCargarCDRs();
+		TarificarBoundary ITarificador = new TarificarInteractor();
+		controlador.setRepository(lectorCDRs);
+		central.setControladorCargarCDRs(controlador);
+		central.setTarificador(ITarificador);
 		central.cargarCDRsDesdeTexto("datas\\file\\CDR.txt");
 		ArrayList<RegistroCDR> listaObtenida = central.tarificarCDRsCargados();
 		assertEquals(5,listaObtenida.size(), "Esperamos la misma cantidad de cdr leidas tarificadas: 5");

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public interface RepositoryBoundary {
 	public ArrayList<RegistroCDR> getList();
+	public void setPath(String path);
 	public void guardarCDRsTarificadosHistorial(ArrayList<RegistroCDR> listaCDRs);
 	public ArrayList<RegistroCDR> obtenerCDRsTarificadosDe(String numeroOrigenBuscado);
 	public ArrayList<RegistroCDR> obtenerCDRsTarificadasSegun(Historial historial);

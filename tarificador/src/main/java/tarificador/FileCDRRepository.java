@@ -25,7 +25,11 @@ public class FileCDRRepository implements RepositoryBoundary {
 	public FileCDRRepository(String url) {
 		this.url = url;
 	}
-
+	
+	public void setPath(String path) {
+		this.url = path;
+	}
+	
 	public void conectar() {
 		try {
 			in = new BufferedReader(new FileReader(url));
