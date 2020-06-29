@@ -80,6 +80,12 @@ public class Interface {
 			return jsonString;
 		});
 	}
+	public static Central getCentral() {
+		return central;
+	}
+	public static void setCentral(Central central) {
+		Interface.central = central;
+	}
 	private static String obtenerFacturaPor(String numero, String mes) {
 		String strJson = central.facturarCliente(numero, Integer.parseInt(mes));
 		return strJson;
@@ -144,7 +150,7 @@ public class Interface {
 		return new VelocityTemplateEngine().render(new ModelAndView(model, "velocity/cdrs/Historial-detalle.vm"));
 	}
 
-	private static String configurarHtml(String per) {
+	public static String configurarHtml(String per) {
 		if(per != null) {
 			persistencia=per;
 			central.cambiarConfiguracion("persistencia", per);

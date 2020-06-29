@@ -6,8 +6,10 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import boundaries.IPersistencia;
 import boundaries.TarificarBoundary;
 import controllers.ControladorCargarCDRs;
+import controllers.ControladorConfiguracionPersistencia;
 
 public class Central {
 	HashMap<String, String> configuraciones;
@@ -17,6 +19,9 @@ public class Central {
 	private FacturadorBoundary facturador = null;
 	private ListaClientes LC;
 	private ControladorCargarCDRs controladorCargarCDRs = null;
+	private ControladorConfiguracionPersistencia controladorConfiguracionPersistencia = null;
+	
+	
 	private TarificarBoundary ITarificador = null;
 	
 	public Central() {
@@ -30,6 +35,9 @@ public class Central {
 	
 	public void setControladorCargarCDRs(ControladorCargarCDRs controlador) {
 		controladorCargarCDRs = controlador;
+	}
+	public void setControladorConfiguracionPersistencia(ControladorConfiguracionPersistencia controladorConfiguracionPersistencia) {
+		this.controladorConfiguracionPersistencia = controladorConfiguracionPersistencia=null;
 	}
 	public void setTarificador(TarificarBoundary ITarificador) {
 		this.ITarificador = ITarificador;
@@ -106,14 +114,7 @@ public class Central {
 	}
 	//Caso de Uso: Cambiar configuracion de persistencia
 	public void cambiarConfiguracion(String key, String value) {
-		if(value.equals("TXT")) {
-			repositorio = new FileCDRRepository();
-			this.configuraciones.replace(key, value);
-		}
-		else if(value.equals("SQL")) {
-			repositorio = new SQLiteCDRRepository();
-			this.configuraciones.replace(key, value);
-		}
+		controladorConfiguracionPersistencia.cambiarConfiguracionDePersistencia(value);
 	}
 	//Caso de Uso: Recuperar Historial
 	public ArrayList<Historial> getHistorial(){
