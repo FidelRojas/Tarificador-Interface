@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import Boundaries.LectorDeCDRs;
 import Entities.CargadorCDRsDesdeTXT;
+import boundaries.LectorDeCDRs;
 import controllers.ControladorCargarCDRs;
 
 class CargarCDRsTest {

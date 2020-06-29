@@ -15,7 +15,7 @@ public class Main {
 		SQLiteCDRRepository sqliteRepository = new SQLiteCDRRepository();
 		ControladorCargarCDRs controlador = new ControladorCargarCDRs();
 		controlador.setRepository(lectorCDRs);
-		central.setControladorCargarCDRs(controlador);
+		//central.setControladorCargarCDRs(controlador);
 		Interface.run(central);
 		
 	}
